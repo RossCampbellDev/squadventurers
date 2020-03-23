@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css?family=Chakra+Petch');
+@import url('https://fonts.googleapis.com/css?family=Cinzel:900');
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+
+html {
+	font-family: Arial;
+	height:100%;
+	overflow:auto;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	 -khtml-user-select: none; /* Konqueror HTML */
+	   -moz-user-select: none; /* Firefox */
+	    -ms-user-select: none; /* Internet Explorer/Edge */
+	        user-select: none; /* Non-prefixed version, currently*/
+}
+
+body {
+	min-height:100%;
+    	margin: 0;
+    	background:#ABB;
+}
+
+a {
+	color:#660025;
+	text-decoration:none;
+}
+
+a:hover {
+	text-shadow: 0 0 2px #FF1177;
+}
+
+
+
+/*******************/
+/*   LAYOUT STUFF  */
+/*******************/
+
+.title-box {
+	min-width:100%; height:100px;
+	top:0;
+	margin-left:auto;
+	margin-right:auto;
+	z-index:2;
+	background-color:#222;
+	position: fixed;
+	box-shadow: 0px 5px 5px #111;
+}
+
+.title-main {
+	font-size:76px;
+	font-weight:bold;
+	font-family: 'Cinzel', serif;
+	color:#ff1275;
+	text-align:center;
+}
+
+.title-sub1 {
+	font-size:26px;
+	color:#333;
+	font-family: 'Pacifico', cursive;
+	text-align:center;
+	padding-bottom:10px;
+}
+
+.content-main {
+	z-index:1;
+	min-width:700px; width:700px;
+	height:auto; max-height:100%;
+	margin-top:140px; margin-bottom:40px;
+	margin-left:auto; margin-right:auto;
+	padding:2px;
+	box-shadow: 0px 0px 8px #333;
+	background-color: #EFEFE3; /*0F000F*/
+}
+
+.content-text {
+	height:auto;
+	font-size:17px; font-weight:normal;
+	text-align:justify;
+	color:#222222;
+	margin:10px;
+	overflow:auto;
+	padding-left:35px; padding-right:35px; padding-bottom:10px;
+	line-height:130%;
+}
+
+.content-navbar {
+	position:fixed;
+	top:15%; left:1%;
+	height:auto; width:120px;
+	margin:4px;
+}
+
+.content-player {
+	width:96%;
+	min-height:60px;
+	background-color:#AAAAAA;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:15px;
+}
+
+
+/*******************/
+/*   NAVBAR STUFF  */
+/*******************/
+.footer-box {
+	position:fixed;
+	bottom:0; height:34px; width:100%;
+	text-align:center;
+	background-color:#222;
+}
+
+.navbar {
+	position:fixed;
+	bottom:2px;	
+	width:244px; height:32px;
+	text-align:center;
+	margin-left:-122px; left:50%;
+}
+
+#navButtons {;
+	width:138px; height:32px;
+}
+
+.fontImage {
+	width:30px;height:30px;
+	border:1px solid #000;
+	border-radius:4px;
+}
+
+#fontSizes {
+	width:105px; height:32px; float:right;
+}
+
+.fontImage {
+	width:30px;height:30px;
+	border:1px solid #000;
+	border-radius:4px;
+}
+
+
+
+/*******************/
+/* CHARACTER STUFF */
+/*******************/
+
+.character-box {
+	position: fixed;
+	top:10%;left:1%;
+	width: 120px; height: 120px;
+	border-radius: 55px;
+	border:4px solid #66BBFF;
+	background:#000000;
+	background-repeat:no-repeat;
+    	background-attachment: fixed;
+	background: linear-gradient(#190019 50%, #601060 85%, #881088);
+	background-repeat:no-repeat;
+    	background-attachment: fixed;
+}
+
+.firstword {
+	font-weight:bold;
+	font-size:24px;
+	color:#440044;
+	font-family: 'Cinzel', serif;
+	padding-left:5px;
+}

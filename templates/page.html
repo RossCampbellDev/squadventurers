@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>StoryBored</title>
+	<link rel="stylesheet" href="/static/bored.css">
+	<script type="text/javascript">
+		function navigate(chapter, page) {
+			window.location.assign("/chapter/" + chapter + "/" + page);
+		}
+		function fontScale(n) {
+			var t = document.getElementById("content-text");
+			t.style.fontSize = n + "px";
+		}
+	</script>
+</head>
+
+<body>
+	<div class="title-box">
+        	<div class="title-main">SQUADVENTURERS</div>
+	</div>
+	<div class="footer-box">
+		<div class="navbar">
+			<div id="navButtons">
+				{% if chapter.number != 1 %}<img class="navImage" src="/static/images/backChapter.png" onClick="navigate({{ chapter.number - 1 }},1)" />{% endif %}
+				{% if page.number != 1 %}<img class="navImage" src="/static/images/backPage.png"    onClick="navigate({{ chapter.number }}, {{ page.number - 1 }})" />{% endif %}
+				{% if page.number < chapter.pageCount %}<img class="navImage" src="/static/images/nextPage.png"    onClick="navigate({{ chapter.number }}, {{ page.number + 1 }})" />{% endif %}
+				{% if chapter.number != 20 %} <img class="navImage" src="/static/images/nextChapter.png" onClick="navigate({{ chapter.number + 1 }},1)" />{% endif %}
+			</div>
+			<div id="fontSizes">
+				<img class="fontImage" src="/static/images/font1.png" onClick=fontScale(17) />
+				<img class="fontImage" src="/static/images/font2.png" onClick=fontScale(22) />
+				<img class="fontImage" src="/static/images/font3.png" onClick=fontScale(27) />
+			</div>
+		</div>
+	</div>
+
+   <div class="content-main">
+        <div class="title-main">{{ chapter.title }}</div>
+        <div class="title-sub1">{{ chapter.subtitle }}</div>
+    	<div class="content-text" id="content-text">{{ chapter.body|safe }}</div>
+    </div>
+    
+
+    <!--<div class="character-box"><img src="images/test.png" width=120 height=120 /></div>-->
+</body>
+</html>
