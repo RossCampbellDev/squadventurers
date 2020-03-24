@@ -29,11 +29,15 @@
         	<div class="title-top">SQUADVENTURERS</div>
 	</div>
 
+	{% set cn = thisPage.chapterNum %}
+	{% set pn = thisPage.absoluteCount %}
+
 	<div class="footer-box">
 		<div class="navbar">
+			<div id="chapterNumLabel">
+				<p>Ch: {{ cn }}</p>
+			</div>
 			<div id="navButtons">
-				{% set cn = thisPage.chapterNum %}
-				{% set pn = thisPage.absoluteCount %}
 
 
 				{% if cn != 1 %}
@@ -66,6 +70,9 @@
 				<img class="fontImage" src="/static/images/font1.png" onClick=fontScale(17) />
 				<img class="fontImage" src="/static/images/font2.png" onClick=fontScale(22) />
 				<img class="fontImage" src="/static/images/font3.png" onClick=fontScale(27) />
+			</div>
+			<div id="pageNumLabel">
+				<p>P: {{ pn }}</p>
 			</div>
 		</div>
 	</div>
