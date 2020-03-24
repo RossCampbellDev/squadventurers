@@ -1,74 +1,98 @@
-#!/usr/bin/env python3
-import os, sys, getopt, json, re
+#!/usr/bin/python
+import json, sys, getopt, os
 
+pageSize = 2400
 
+def jsonify(f, page):
+    start = True
+    absoluteCount = 1
+    pageNumber = 1
+    chapterNumber = 1
+    carryOver = ""
+    thisPage = {}
+    pagesDictionary = []
 
-def divide(fileIn, pageSize):
-    pageNo = 1
-    book = []
+    # while there are characters remaining in the file
+    while page != "":
+	# if its the start of the entire thing no need to check anything, just create the JSON page
+        # page { chapterNumber:1, pageNumber:1, pageText:"hello there" }
+	if start:
+            start = False
+            # find the last space that occurs, and end the page immediately before it (find last whole word within 1kb)
+            lastChar = page.rfind(" ")
+            pageText = carryOver + page[:lastChar]
 
-    # read the input file as bytes and while bytes remain, create page JSONs
-    with open(fileIn, "rb") as f:    
-        currentPage = f.read(pageSize)
+            # add pageText to JSON object here
+            thisPage["absoluteCount"] = absoluteCount
+            thisPage["chapterNum"] = str(chapterNumber)
+            thisPage["pageNum"] = str(pageNumber)
+            thisPage["pageText"] = pageText.replace("\r\n","\n").replace("\n","<br/>")
+            pagesDictionary.append(thisPage.copy())
 
-        while currentPage != b"":
-            thisPage = {"pageNo":str(pageNo),"pageText":currentPage.decode('utf8')}
-            book.append(thisPage)
+            # then add any remaining characters to the next page
+            carryOver = page[lastChar:pageSize]
+	else:
+            # increment the absolute count - from 1 to number of pages total
+            absoluteCount += 1
 
-            # step to next 'page'
-            pageNo += 1
-            currentPage = f.read(pageSize)
-    
-    # return all pages as JSON objects
-    jsonResult = json.dumps(book)
-    return jsonResult
+            # if its not the first page, increment page count
+            pageNumber += 1
+            
+            # if there is a new chapter, end the current page and start a new one
+            pos = page.find("CHAPTER ")
+            if pos > -1:
+                lastChar = pos
+                chapterNumber += 1
+                pageNumber = 1
+            # if there isn't a new chapter, read page normally
+            else:
+                lastChar = page.rfind(" ")
+            
+            pageText = carryOver + page[:lastChar]
 
+            # add to json
+            thisPage["absoluteCount"] = absoluteCount
+            thisPage["chapterNum"] = str(chapterNumber)
+            thisPage["pageNum"] = str(pageNumber)
+            thisPage["pageText"] = pageText.replace("\r\n","\n").replace("\n","<br/>")
+            pagesDictionary.append(thisPage.copy())
+            
+            # remaining characters to next page
+            carryOver = page[lastChar:pageSize]
+		
+	# read next kb
+        page = f.read(pageSize)
 
-
-
-def chapterfy(fileIn):
-    chapters = []
-
-    with open(fileIn, "r", encoding="utf-8") as f:
-        for line in f:
-            print(line)
-
-    #chapters = wholeFile.split("Chapter")
-    #chapters = ["Chapter" + c for c in chapters]
-
-    #return chapters
-
-
+    return pagesDictionary
 
 def main(args):
-    usage = "jsonify -h -f <input file> [-z <page size in bites]"
-    pageSize = 1024 # default size of a page in bytes, can be modified
+    opts,args = getopt.getopt(args, 'hf:o:')
+    usage = "Usage: jsonify -h -f <input text> -o <output file>"
 
-    opts,args = getopt.getopt(args, 'hf:z:')
     for opt, arg in opts:
         if opt == "-h":
             print(usage)
             sys.exit(2)
         elif opt == "-f":
             if not os.path.isfile(arg):
-                print("Error, missing input plaintext file")
+                print("Error, missing input file")
                 print(usage)
                 sys.exit(2)
             else:
-                fileIn = arg
-        elif opt == "-z":
-            if arg.isdigit():
-                pageSize=int(arg)
-            else:
-                print("Error, -z argument must be an integer")
-                sys.exit(2)
+                fileIn = open(arg)
+        elif opt == "-o":
+            fileOut = arg
 
-    #bk = chapterfy(fileIn)
-    #print(bk)
-    bk = divide(fileIn, pageSize)
-    print(bk)
+    # read first kb of characters
+    page = fileIn.read(pageSize)   
+    pagesDictionary = jsonify(fileIn, page)
 
-
+#finish
+    f = open(fileOut, "w+")
+    f.write(json.dumps(pagesDictionary))
+    f.close()
+    print("Complete! -> %s" % fileOut)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
+

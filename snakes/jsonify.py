@@ -11,6 +11,7 @@ def jsonify(f, page):
     carryOver = ""
     thisPage = {}
     pagesDictionary = []
+    newChapter = False
 
     # while there are characters remaining in the file
     while page != "":
@@ -41,9 +42,7 @@ def jsonify(f, page):
             # if there is a new chapter, end the current page and start a new one
             pos = page.find("CHAPTER ")
             if pos > -1:
-                lastChar = pos
-                chapterNumber += 1
-                pageNumber = 1
+                newChapter = True
             # if there isn't a new chapter, read page normally
             else:
                 lastChar = page.rfind(" ")
@@ -56,6 +55,12 @@ def jsonify(f, page):
             thisPage["pageNum"] = str(pageNumber)
             thisPage["pageText"] = pageText.replace("\r\n","\n").replace("\n","<br/>")
             pagesDictionary.append(thisPage.copy())
+
+            if newChapter:
+                lastChar = pos
+                chapterNumber += 1
+                pageNumber = 1
+                newChapter = False
             
             # remaining characters to next page
             carryOver = page[lastChar:pageSize]

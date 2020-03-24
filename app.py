@@ -20,10 +20,10 @@ def home(pageNum, chapterNum):
     
     if pageNum == "None":
         pageNum = 1
+
     # load the pre-generated JSON data into a JSON dictionary
     with open("chapters/AllPages") as f:
         j = json.load(f)
-
 
     pageNum = int(pageNum)
 
@@ -32,7 +32,6 @@ def home(pageNum, chapterNum):
         #chapterNum = int(chapterNum)
         for page in j:
             if page["chapterNum"] == chapterNum:
-                print("oy")
                 thisPage["absoluteCount"] = int(page["absoluteCount"])
                 thisPage["pageText"] = page["pageText"]
                 thisPage["chapterNum"] = int(page["chapterNum"])
@@ -72,7 +71,7 @@ def bio(nameIn):
                 thisEntity={}
                 thisEntity["name"] = bio["name"]
                 fi = open("menagerie/" + nameIn, "r")
-                thisEntity["description"] = fi.read().decode("utf-8")
+                thisEntity["description"] = fi.read()
                 fi.close()
 
                 return render_template("bio.html", entity=thisEntity)

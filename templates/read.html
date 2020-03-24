@@ -10,9 +10,9 @@
 		}
 		function changeChapter(page, chapter, move) {
 			if (move == 'next') {
-				window.location.assign("/" + page + "/" + (chapter + 1));
+				window.location.assign("/" + (page + 1) + "/" + (chapter + 1));
 			} else {
-				window.location.assign("/" + page + "/" + (chapter - 1));
+				window.location.assign("/" + (page - 1) + "/" + (chapter - 1));
 			}
 		}
 		function fontScale(n) {
@@ -24,14 +24,14 @@
 
 <body>
 	<div class="title-box">
-        	<div class="title-main">READ THIS IT'S GREAT</div>
+        	<div class="title-top">SQUADVENTURERS</div>
 	</div>
+
 	<div class="footer-box">
 		<div class="navbar">
 			<div id="navButtons">
 				{% set cn = thisPage.chapterNum %}
 				{% set pn = thisPage.absoluteCount %}
-
 
 
 				{% if cn != 1 %}
@@ -50,13 +50,13 @@
 
 
 
-				{% if pn < 200 %}
+				{% if pn < 400 %}
 					<img class="navImage" src="/static/images/nextPage.png"    onClick="navigate({{ pn + 1 }})" />
 				{% endif %}
 
 
 
-				{% if cn != 20 %}
+				{% if cn != 40 %}
 				<img class="navImage" src="/static/images/nextChapter.png" onClick="changeChapter({{ pn }}, {{ cn }}, 'next')" />
 				{% endif %}
 			</div>
@@ -68,9 +68,9 @@
 		</div>
 	</div>
 
-   <div class="content-main">
-    	<div class="content-text" id="content-text">{{ thisPage.pageText|safe }}</div>
-    </div>
+   	<div class="content-main">
+    		<div class="content-text" id="content-text">{{ thisPage.pageText|safe }}</div>
+    	</div>
     
 
     <!--<div class="character-box"><img src="images/test.png" width=120 height=120 /></div>-->

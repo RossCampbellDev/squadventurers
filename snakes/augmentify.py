@@ -32,8 +32,10 @@ def augmentifyThis(fileIn, dictionary, plaintextify):
 
 def markupThis(textIn, chapters):
     returnText = textIn
+    ch = chapters.read().split('\n')
+    ch = ch[:-1]
     n = 1
-    for line in chapters:
+    for line in ch:
         returnText = returnText.replace("CHAPTER " + str(n), "<div class='title-main'>CHAPTER " + str(n) + "</div>")
         returnText = returnText.replace(line, "<div class='title-sub'>" + line + "</div>")
         n += 1
