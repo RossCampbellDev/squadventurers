@@ -29,6 +29,10 @@
         	<div class="title-top">SQUADVENTURERS</div>
 	</div>
 
+   	<div class="content-main">
+    		<div class="content-text" id="content-text">{{ thisPage.pageText|safe }}</div>
+    	</div>
+
 	{% set cn = thisPage.chapterNum %}
 	{% set pn = thisPage.absoluteCount %}
 
@@ -43,7 +47,7 @@
 				{% if cn != 1 %}
 				<img class="navImage" src="/static/images/backChapter.png" onClick="changeChapter({{ pn }}, {{ cn }}, 'prev')" />
 				{% else %}
-					<img class="navImage" src="/static/images/backChapter.png" />
+				<img class="navImage" src="/static/images/backChapter.png" onClick="changeChapter(1, 2, 'prev')" />
 				{% endif %}
 
 
@@ -76,11 +80,8 @@
 			</div>
 		</div>
 	</div>
-
-   	<div class="content-main">
-    		<div class="content-text" id="content-text">{{ thisPage.pageText|safe }}</div>
-    	</div>
     
+	<div id="donate">Donate!</div>
 
     <!--<div class="character-box"><img src="images/test.png" width=120 height=120 /></div>-->
 </body>

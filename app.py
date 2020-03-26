@@ -30,9 +30,9 @@ def home(pageNum, chapterNum):
 
     # looking for a specific chapter, so return the right page as soon as we find it
     if chapterNum != "None":
-        #chapterNum = int(chapterNum)
+        chapterNum = int(chapterNum)
         for page in j:
-            if page["chapterNum"] == chapterNum:
+            if int(page["chapterNum"]) == chapterNum:
                 thisPage["absoluteCount"] = int(page["absoluteCount"])
                 thisPage["pageText"] = page["pageText"]
                 thisPage["chapterNum"] = int(page["chapterNum"])

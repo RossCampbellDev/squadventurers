@@ -26,7 +26,8 @@ a {
 }
 
 a:hover {
-	text-shadow: 0 0 2px #FF1177;
+	text-shadow: 0 0 4px #FF1177; transition:0.8s;
+
 }
 
 p {
@@ -36,7 +37,6 @@ p {
 	font-size:18px;
 	padding:0;padding-top:6px; line-height:1; margin:0;
 }
-
 
 
 /*******************/
@@ -51,27 +51,35 @@ p {
 	z-index:2;
 	background-color:#222;
 	position: fixed;
-	box-shadow: 0px 5px 5px #111;
+	box-shadow: 0px 3px 10px #111;
+	padding:8px;
 }
 
 .title-top {
-	font-size:76px;
+	font-size:56px;
 	font-weight:bold;
 	font-family: 'Cinzel', serif;
 	color:#fff459;
 	text-align:center;
-	height:80px;
-	margin-top:-8px;
+	height:100%;
+	line-height:100px;
+	margin-top:-6px;
+	transform: skewY(-2deg);
+	text-shadow:6px 6px 0px #651;
 }
 
 .title-main {
-	font-size:70px;
+	font-size:50px;
 	font-weight:bold;
 	font-family: 'Cinzel', serif;
 	color:#ff1275;
 	text-align:center;
-	height:80px;
-	margin-top:30px;
+	height:auto;
+	line-height:100%;
+}
+
+.title-main:hover {
+	transform:rotate(360deg); filter:invert(100%); transition:0.3s;
 }
 
 .title-sub {
@@ -105,35 +113,19 @@ p {
 	line-height:130%;
 }
 
-
-@media screen and (orientation:portrait) {
-	.title-top {
-		font-size:38px;
-		margin-top:28px;
-		height:70px;
-	}
-
-	.title-main {
-		font-size:40px;
-		margin-top:20px;
-	}
-
-	.title-sub {
-		font-size:20px;
-		font-family:verdana;
-		font-weight:bold;
-	}
-
-	.content-main {
-		width:98%;
-		margin-top:110px;
-	}
-
-	.content-text {
-		font-size:16px;
-		padding:10px;
-	}
+.next {
+	color:#555; font-style:italic;
 }
+
+#chapterNumLabel {
+	float:left;margin:0 auto;padding-left:50px; padding-right:50px;display:inline-block;margin:0 auto;
+}
+
+#pageNumLabel {
+	float:left;padding-left:50px; padding-right:50px;display:inline-block;margin:0 auto;
+}
+
+
 
 .content-navbar {
 	position:fixed;
@@ -159,24 +151,16 @@ p {
 .footer-box {
 	position:fixed;
 	bottom:0; height:34px; width:100%;
-	background-color:#222;
-}
-
-#chapterNumLabel {
-	float:left;margin:0 auto;padding-left:50px; padding-right:50px;display:inline-block;margin:0 auto;
-}
-
-#pageNumLabel {
-	float:left;padding-left:50px; padding-right:50px;display:inline-block;margin:0 auto;
+	background-color:#222; text-align:center;
+	padding-top:4px;
+	box-shadow: 0px -3px 10px #111;z-index:2
 }
 
 .navbar {
-	position:fixed;
 	bottom:0;	
-	width:700px; height:32px;
-	margin-left:-350px; left:50%;
+	width:auto; height:32px;
 	z-index:3; text-align:center;
-	padding:auto; 
+	display:inline-block; 
 }
 
 .navbar-box:after {
@@ -184,10 +168,13 @@ p {
 	clear:both;
 }
 
+.navImage { 
+	transition:0.5s;
+
+}
+
 .navImage:hover {
-	-webkit-box-shadow: inset 0 0 7px #ff4697;
-	-moz-box-shadow: inset 0 0 7px #ff4697;
-	box-shadow: inset 0 0 7px #ff4697;
+	transform: rotate(360deg); filter: invert(100%); transition:0.5s;
 }
 
 #navButtons {
@@ -201,6 +188,11 @@ p {
 	width:30px;height:30px;
 	border:1px solid #000;
 	border-radius:4px;
+
+}
+
+.fontImage:hover {
+	transform: rotate(360deg);f ilter: invert(50%); transition:0.5s;
 }
 
 #fontSizes {
@@ -211,7 +203,7 @@ p {
 
 .fontImage {
 	width:30px;height:30px;
-	border:1px solid #000;
+	border:1px solid #fff459;
 	border-radius:4px;
 }
 
@@ -219,6 +211,19 @@ p {
 	-webkit-box-shadow: inset 0 0 7px #333;
 	-moz-box-shadow: inset 0 0 7px #333;
 	box-shadow: inset 0 0 7px #333;
+}
+
+#donate {
+	position: fixed; bottom:0;
+	left:50%; margin-left:140px; margin-bottom:34px;
+	width:150px; height:30px; border-radius:8px 8px 0px 0px;
+	background-color:#222; color:#AAA; border:1px solid #AAA; z-index:1;
+	text-align:center; font-size:18px; padding-top:4px;transition:0.3s;
+}
+
+#donate:hover {
+	border:1px solid #FFF; font-size:22px; padding:8px;
+	cursor:pointer; transition:0.8s; filter:invert(100%);
 }
 
 
@@ -247,3 +252,50 @@ p {
 	font-family: 'Cinzel', serif;
 	padding-left:5px;
 }
+
+
+@media screen and (orientation:portrait) {
+	.title-box {
+		height:60px;
+	}
+	.title-top {
+		font-size:38px;
+		margin-top:-24px;
+		height:100%;
+	}
+
+	.title-main {
+		height:auto;
+		font-size:36px;
+	}
+
+	.title-sub {
+		font-size:20px;
+		font-family:verdana;
+		font-weight:bold;
+	}
+
+	.content-main {
+		width:98%;
+		margin-top:110px;
+	}
+
+	.content-text {
+		font-size:16px;
+		padding:10px;
+	}
+
+	#chapterNumLabel {
+		padding-left:10px; padding-right:10px;
+	}
+	
+	#pageNumLabel {
+		padding-left:10px; padding-right:10px;
+	}
+
+	#donate {
+		margin-left:85px;
+	}
+
+}
+

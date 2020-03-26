@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import json, sys, getopt, os
 
-pageSize = 2400
+pageSize = 2600
 
 def jsonify(f, page):
     start = True
@@ -27,7 +27,7 @@ def jsonify(f, page):
             thisPage["absoluteCount"] = absoluteCount
             thisPage["chapterNum"] = str(chapterNumber)
             thisPage["pageNum"] = str(pageNumber)
-            thisPage["pageText"] = pageText.replace("\r\n","\n").replace("\n","<br/>")
+            thisPage["pageText"] = pageText.replace("\r\n","\n").replace("\n","<br/>") + "<span class=next>&nbsp;... next page</span>"
             pagesDictionary.append(thisPage.copy())
 
             # then add any remaining characters to the next page
@@ -53,7 +53,7 @@ def jsonify(f, page):
             thisPage["absoluteCount"] = absoluteCount
             thisPage["chapterNum"] = str(chapterNumber)
             thisPage["pageNum"] = str(pageNumber)
-            thisPage["pageText"] = pageText.replace("\r\n","\n").replace("\n","<br/>")
+            thisPage["pageText"] = pageText.replace("\r\n","\n").replace("\n","<br/>") + "<span class=next>&nbsp;... next page</span>"
             pagesDictionary.append(thisPage.copy())
 
             if newChapter:
