@@ -10,6 +10,7 @@
 		function navigate(page) {
 			window.location.assign("/" + page);
 		}
+
 		function changeChapter(page, chapter, move) {
 			if (move == 'next') {
 				window.location.assign("/" + (page + 1) + "/" + (chapter + 1));
@@ -17,11 +18,22 @@
 				window.location.assign("/" + (page - 1) + "/" + (chapter - 1));
 			}
 		}
+
 		function fontScale(n) {
 			var t = document.getElementById("content-text");
 			t.style.fontSize = n + "px";
 		}
+
 		function quotePretty() {
+			//dimmer cookie
+			var dimmerCookie = document.cookie;
+			dimmerCookie=dimmerCookie.split(';');
+			dimmerCookie = dimmerCookie[0];
+			if (dimmerCookie.includes("false")) {
+				dimmerSwitch = dimmerCookie;
+				dimmer();
+			}
+
 			var t = document.getElementById("content-text");
 			var txt = t.innerHTML;
 			var first = true;
@@ -38,6 +50,7 @@
 			t.innerHTML = txt;
 			return true;
 		}
+
 		function dimmer() {
 			var i = document.getElementById("lightSwitch");
 			var b = document.getElementsByTagName("BODY")[0];
@@ -54,20 +67,24 @@
 				b.style.backgroundColor = "#222";
 				cm.style.backgroundColor = "#333";
 				ct.style.color = "#AAA";
-				t.style.color = "#AAA";
 				acolour = "#8b7896";
 				tt.style.color = "#838037";
-				tm.style.color = "#69446e";
+				try {
+					tm.style.color = "#69446e";
+					t.style.color = "#AAA";
+				} catch (err) { }
 
 			} else {
 				i.src = "/static/images/light.png";
 				b.style.backgroundColor = "#ABB";
 				cm.style.backgroundColor = "#EFEFE3";
 				ct.style.color = "#000";
-				t.style.color = "#000";
 				acolour = "#660025";
 				tt.style.color = "#fff459";
-				tm.style.color = "#ff1275";
+				try {
+					tm.style.color = "#ff1275";
+					t.style.color = "#000";
+				} catch (err) {}
 			}
 
 			for (var i=0; i<anchors.length;i++) {
@@ -75,6 +92,7 @@
 			}
 
 			dimmerSwitch = !dimmerSwitch;
+			document.cookie = "dimmerCookie=" + dimmerSwitch + ";";
 		}
 	</script>
 </head>
@@ -139,7 +157,7 @@
 		</div>
 	</div>
     
-	<div id="donate">Donate!</div>
+	<!--	<div id="donate">Donate!</div>-->
 
     <!--<div class="character-box"><img src="images/test.png" width=120 height=120 /></div>-->
 </body>
