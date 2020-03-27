@@ -6,6 +6,7 @@
 	<title>Squadventurers</title>
 	<link rel="stylesheet" href="/static/bored.css">
 	<script type="text/javascript">
+		window.dimmerSwitch = true;
 		function navigate(page) {
 			window.location.assign("/" + page);
 		}
@@ -37,6 +38,44 @@
 			t.innerHTML = txt;
 			return true;
 		}
+		function dimmer() {
+			var i = document.getElementById("lightSwitch");
+			var b = document.getElementsByTagName("BODY")[0];
+			var cm = document.getElementsByClassName("content-main")[0];
+			var ct = document.getElementsByClassName("content-text")[0];
+			var t = document.getElementsByClassName("title-sub")[0];
+			var tm = document.getElementsByClassName("title-main")[0];
+			var tt = document.getElementsByClassName("title-top")[0];
+			var anchors = document.getElementsByTagName("a");
+			var acolour = "#660025";
+
+			if (dimmerSwitch) {
+				i.src = "/static/images/lightOff.png";
+				b.style.backgroundColor = "#222";
+				cm.style.backgroundColor = "#333";
+				ct.style.color = "#AAA";
+				t.style.color = "#AAA";
+				acolour = "#8b7896";
+				tt.style.color = "#838037";
+				tm.style.color = "#69446e";
+
+			} else {
+				i.src = "/static/images/light.png";
+				b.style.backgroundColor = "#ABB";
+				cm.style.backgroundColor = "#EFEFE3";
+				ct.style.color = "#000";
+				t.style.color = "#000";
+				acolour = "#660025";
+				tt.style.color = "#fff459";
+				tm.style.color = "#ff1275";
+			}
+
+			for (var i=0; i<anchors.length;i++) {
+				anchors[i].style.color = acolour;
+			}
+
+			dimmerSwitch = !dimmerSwitch;
+		}
 	</script>
 </head>
 
@@ -54,6 +93,9 @@
 
 	<div class="footer-box">
 		<div class="navbar">
+			<div id="lightImage">
+				<img src="/static/images/light.png" id='lightSwitch' onClick=dimmer() />
+			</div>
 			<div id="chapterNumLabel">
 				<p>Ch: {{ cn }}</p>
 			</div>
