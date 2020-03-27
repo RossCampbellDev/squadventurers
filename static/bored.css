@@ -64,7 +64,7 @@ p {
 	height:100%;
 	line-height:100px;
 	margin-top:-6px;
-	transform: skewY(-2deg);
+	transform: rotate(-2deg);
 	text-shadow:6px 6px 0px #651;
 }
 
@@ -203,14 +203,12 @@ p {
 
 .fontImage {
 	width:30px;height:30px;
-	border:1px solid #fff459;
+	border:1px solid #ff1729;
 	border-radius:4px;
 }
 
 .fontImage:hover {
-	-webkit-box-shadow: inset 0 0 7px #333;
-	-moz-box-shadow: inset 0 0 7px #333;
-	box-shadow: inset 0 0 7px #333;
+	transform: rotate(360deg); filter: invert(100%); transition:0.5s;
 }
 
 #donate {
