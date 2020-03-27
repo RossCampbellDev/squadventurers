@@ -20,11 +20,10 @@ def augmentifyThis(fileIn, dictionary, plaintextify):
     f = fileIn.read()
     fileIn.close()
     newdata = f.replace("  ","&nbsp;&nbsp;")
+    newdata = newdata.replace("*","<p style=\\\"text-align:center;color:#000;\\\">*</p>")
 
     for k,v in replacementDict.items():
         mask = r'\b%s\b' % k
-        if k == "*":
-            mask = r'\b\%s\b' % k
 
         new = v
 
@@ -51,7 +50,7 @@ def markupThis(textIn, chapters):
         new = "<div class='title-main'>CHAPTER " + str(n) + "</div>"
         # returnText = returnText.replace("CHAPTER " + str(n), "<div class='title-main'>CHAPTER " + str(n) + "</div>")
         textIn = re.sub(mask, new, textIn)
-        textIn = textIn.replace(line, "<div class='title-sub'>" + line + "</div>")
+        textIn = textIn.replace(line, "<div class='title-sub'>" + line + "...</div>")
         n += 1
 
     return textIn

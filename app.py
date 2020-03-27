@@ -69,6 +69,8 @@ def bio(nameIn):
     
         for bio in bios:
             if bio["name"] == nameIn:
+                if nameIn == "Pantaloons":
+                    bio["name"] = "The Crusty Pantaloons"
                 thisEntity={}
                 thisEntity["name"] = bio["name"]
                 fi = open("menagerie/" + nameIn, "r")

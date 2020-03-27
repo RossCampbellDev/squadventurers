@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Chakra+Petch');
 @import url('https://fonts.googleapis.com/css?family=Cinzel:900');
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
+@import url('https://fonts.googleapis.com/css?family=Sonsie+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Bangers&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nothing+You+Could+Do&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Vibur&display=swap');
 
 html {
 	font-family: Arial;
@@ -38,6 +42,10 @@ p {
 	padding:0;padding-top:6px; line-height:1; margin:0;
 }
 
+.quotes {
+	color:#3508bd;
+}
+
 
 /*******************/
 /*   LAYOUT STUFF  */
@@ -56,9 +64,10 @@ p {
 }
 
 .title-top {
-	font-size:56px;
+	font-size:65px;
 	font-weight:bold;
-	font-family: 'Cinzel', serif;
+	/*font-family: 'Cinzel', serif;*/
+	font-family: 'Bangers', cursive;
 	color:#fff459;
 	text-align:center;
 	height:100%;
@@ -66,28 +75,35 @@ p {
 	margin-top:-6px;
 	transform: rotate(-2deg);
 	text-shadow:6px 6px 0px #651;
+	letter-spacing: 12px; transition:0.8s;
+}
+
+.title-top:hover {
+	text-shadow:6px 6px 0px #3a8; transition:0.8s;
 }
 
 .title-main {
 	font-size:50px;
 	font-weight:bold;
-	font-family: 'Cinzel', serif;
+	/*font-family: 'Cinzel', serif;*/
+	font-family: 'Bangers', cursive;
 	color:#ff1275;
 	text-align:center;
 	height:auto;
 	line-height:100%;
+	letter-spacing:4px;
+	transition:0.8s;
 }
 
 .title-main:hover {
-	transform:rotate(360deg); filter:invert(100%); transition:0.3s;
+	filter:invert(100%); transition:0.8s;
 }
 
 .title-sub {
-	font-size:27px;
+	font-size:27px; font-weight:bold;
 	color:#333;
-	font-family: 'Pacifico', cursive;
-	text-align:center;
-	padding-bottom:10px;
+	font-family: 'Vibur', cursive;
+	text-align:left;
 	line-height:130%;
 }
 
@@ -109,7 +125,7 @@ p {
 	color:#222222;
 	margin:10px;
 	overflow:auto;
-	padding-left:35px; padding-right:35px; padding-bottom:10px;
+	padding-left:35px; padding-right:35px; padding-bottom:10px;padding-top:14px;
 	line-height:130%;
 }
 
@@ -203,7 +219,7 @@ p {
 
 .fontImage {
 	width:30px;height:30px;
-	border:1px solid #ff1729;
+	border:1px solid #ff1177;
 	border-radius:4px;
 }
 
@@ -269,7 +285,6 @@ p {
 
 	.title-sub {
 		font-size:20px;
-		font-family:verdana;
 		font-weight:bold;
 	}
 

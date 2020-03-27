@@ -12,8 +12,12 @@
     </div>
 
    <div class="content-main">
-        <div class="title-main">{{ entity.name }}</div>
-    	<div class="content-text">{{ entity.description|safe }}</div>
+	   <div class="content-text">
+        	<div class="title-main">
+			{{ entity.name }}
+		</div>
+    		{{ entity.description|safe }}
+	   </div>
     </div>
 
     <!--<div class="character-box"><img src="images/test.png" width=120 height=120 /></div>-->

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-	<title>StoryBored</title>
+	<title>Squadventurers</title>
 	<link rel="stylesheet" href="/static/bored.css">
 	<script type="text/javascript">
 		function navigate(page) {
@@ -20,11 +20,27 @@
 			var t = document.getElementById("content-text");
 			t.style.fontSize = n + "px";
 		}
-
+		function quotePretty() {
+			var t = document.getElementById("content-text");
+			var txt = t.innerHTML;
+			var first = true;
+			for (const c of txt) {
+				if (c == "\"") {
+					if (first) {
+						txt.replace(c, "<span class=quote>\"");
+					} else {
+						txt.replace(c, "\"</span>");
+					}	
+					first = !first;
+				}
+			}
+			t.innerHTML = txt;
+			return true;
+		}
 	</script>
 </head>
 
-<body>
+<body onload="quotePretty()">
 	<div class="title-box">
         	<div class="title-top">SQUADVENTURERS</div>
 	</div>
