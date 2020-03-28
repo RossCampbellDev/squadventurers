@@ -23,6 +23,7 @@ body {
     	margin: 0;
     	background:#ABB;
 	transition:0.5s;
+	overflow:hidden;
 }
 
 a {
@@ -59,7 +60,6 @@ p {
 	margin-right:auto;
 	z-index:2;
 	background-color:#222;
-	position: fixed;
 	box-shadow: 0px 3px 10px #111;
 	padding:8px;
 }
@@ -111,9 +111,9 @@ p {
 
 .content-main {
 	z-index:1;
-	width:700px;
+	width:740px;
 	height:auto; max-height:100%;
-	margin-top:140px; margin-bottom:40px;
+	margin-top:20px; margin-bottom:60px;
 	margin-left:auto; margin-right:auto;
 	padding:2px;
 	box-shadow: 0px 0px 8px #333;
@@ -298,7 +298,6 @@ p {
 
 	.content-main {
 		width:98%;
-		margin-top:110px;
 	}
 
 	.content-text {

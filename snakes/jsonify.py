@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import json, sys, getopt, os
 
-pageSize = 2600
+pageSize = 2400
 
 def jsonify(f, page):
     start = True

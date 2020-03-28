@@ -20,6 +20,8 @@ def augmentifyThis(fileIn, dictionary, plaintextify):
     f = fileIn.read()
     fileIn.close()
     newdata = f.replace("  ","&nbsp;&nbsp;")
+    newdata = newdata.replace("iii","<i>")
+    newdata = newdata.replace("jjj","</i>")
     newdata = newdata.replace("*","<p style=\\\"text-align:center;color:#000;\\\">*</p>")
 
     for k,v in replacementDict.items():
