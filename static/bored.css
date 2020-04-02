@@ -31,7 +31,7 @@ a {
 }
 
 a:hover {
-	text-shadow: 0 0 4px #feffd4; transition:0.8s;
+	text-shadow: 0 0 4px #540a24; transition:0.8s;
 
 }
 
@@ -71,7 +71,7 @@ p {
 	text-align:center;
 	height:100%;
 	line-height:100px;
-	margin-top:-6px;
+	margin-top:-6px; margin-left:-16px;
 	transform: rotate(-2deg);
 	letter-spacing: 12px; transition:0.8s;
 	text-shadow:6px 6px 0px #222; transition:0.8s;
@@ -287,14 +287,14 @@ p {
 		height:70px;
 	}
 	.title-top {
-		font-size:58px;
+		font-size:44px;
 		margin-top:-14px;
 		height:100%;
 	}
 
 	.title-main {
 		height:auto;
-		font-size:36px;
+		font-size:34px;
 	}
 
 	.title-sub {
@@ -307,7 +307,7 @@ p {
 	}
 
 	.content-text {
-		font-size:16px;
+		font-size:15px;
 		padding:10px;
 	}
 
