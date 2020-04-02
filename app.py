@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import json
 import os
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request
 
 app = Flask(__name__) #create app variable and make instance of Flask class
 
@@ -17,6 +17,30 @@ app = Flask(__name__) #create app variable and make instance of Flask class
 #@app.route("/home", defaults={"pageNum":"None"})
 #@app.route("/<pageNum>")
 def home(pageNum, chapterNum):
+    # check for new unique visitor
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        IP = request.environ['REMOTE_ADDR']
+    else:
+        IP = request.environ['HTTP_X_FORWARDED_FOR'] #proxy
+
+    unique = True # always assume new visitor
+    count = 0
+    with open("visitors") as f:
+        fl = f.readlines()
+        for l in fl:
+            count = count + 1
+            if l.replace("\n","") == IP:
+                print(IP)
+                unique = False
+
+
+    if unique:
+        f = open("visitors","a+")
+        count = count + 1
+        f.write(IP + "\n")
+    print("total unique visitors:\t%d" % count)
+
+
     thisPage={}
     
     if pageNum == "None":
@@ -89,5 +113,5 @@ def favicon():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0", port=8080)
+    app.run(debug=True, host="0.0.0.0", port=8080)
 
