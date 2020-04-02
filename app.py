@@ -30,7 +30,6 @@ def home(pageNum, chapterNum):
         for l in fl:
             count = count + 1
             if l.replace("\n","") == IP:
-                print(IP)
                 unique = False
 
 
@@ -38,6 +37,7 @@ def home(pageNum, chapterNum):
         f = open("visitors","a+")
         count = count + 1
         f.write(IP + "\n")
+        f.close()
     print("total unique visitors:\t%d" % count)
 
 
