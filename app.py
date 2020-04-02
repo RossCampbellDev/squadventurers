@@ -4,6 +4,7 @@ import os
 from flask import Flask, render_template, send_from_directory, request
 
 app = Flask(__name__) #create app variable and make instance of Flask class
+# app.config['SERVER_NAME'] = 'squadventurers.co.uk:80'
 
 
 # behaviour for the index page and reading chapters
