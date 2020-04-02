@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import json
 import os
+import random
 from flask import Flask, render_template, send_from_directory, request
 
 app = Flask(__name__) #create app variable and make instance of Flask class
@@ -39,7 +40,7 @@ def home(pageNum, chapterNum):
         count = count + 1
         f.write(IP + "\n")
         f.close()
-    print("total unique visitors:\t%d" % count)
+    # print("total unique visitors:\t%d" % count)
 
 
     thisPage={}
@@ -102,7 +103,24 @@ def bio(nameIn):
                 thisEntity["description"] = fi.read()
                 fi.close()
 
-                return render_template("bio.html", entity=thisEntity)
+        # open the quotes file and get all quotes for this character, then pick a random one
+        quotesList = []
+        count = 0
+        with open("Quotes", "r") as f:
+            fl = f.readlines()
+
+        for l in fl:
+            line = l.split("%")
+            if line[0] == nameIn:
+                count = count + 1
+                quotesList.append(line[1])
+
+        if count > 0:
+            thisQuote = quotesList[random.randint(0, count-1)]
+        else:
+            thisQuote = ""
+
+        return render_template("bio.html", entity=thisEntity, quote=thisQuote)
     else:
         return "<content-title>Bio Page</content-title>"
 
