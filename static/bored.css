@@ -158,45 +158,78 @@ p {
 	float:left;padding-left:50px; padding-right:50px;display:inline-block;margin:0 auto;
 }
 
+#navLabel {
+	float:left;padding-left:10px; padding-right:10px;display:inline-block;margin:0 auto;
+	transition: 0.8s;
+}
+
+#navLabel:hover {
+	background-color:#FFF;
+}
+
 #lightImage {
 	float:left;width:30px; height:30px;padding-left:10px;padding-right:10px; display:inline-block;margin:0 auto;
+	transition: 0.8s;
 }
 
-
-
-.content-navbar {
-	position:fixed;
-	top:15%; left:1%;
-	height:auto; width:120px;
-	margin:4px;
-	z-index:2;
-}
-
-.content-player {
-	width:96%;
-	min-height:60px;
-	background-color:#AAAAAA;
-	margin-left:auto;
-	margin-right:auto;
-	margin-bottom:15px;
+#lightImage:hover {
+	background-color:#FFF;
 }
 
 
 /*******************/
 /*   NAVBAR STUFF  */
 /*******************/
+.fancy-nav-box {
+	position: fixed; bottom: 38px;
+	margin-left: -372px; left:-372px;
+	height: 70px; width: 744px;
+	background-color: #222; opacity:0.6;
+	padding-top: 2px; padding-bottom: 2px; transition:0.5s;
+}
+.fancy-nav-box:hover {
+	opacity:1;
+}
+
+.fancy-nav-button {
+	display: block; float:left;
+	width: 244px; height: 66px;
+	margin: 2px;
+	color: #feffd4;	font-size: 20px; 
+	vertical-align: middle; transition: 0.6s;
+}
+
+.fancy-nav-button:hover {
+	background-color:#A50B1D;
+}
+
+.fancy-nav-image {
+	background-color: red;
+	width: 66px; height: 66px;
+	margin: 2px;
+}
+
+.fancy-nav-text {
+	height: 100%;
+	line-height: normal; text-align:center;
+
+}
+
 .footer-box {
 	position:fixed;
 	bottom:0; height:34px; width:100%;
 	background-color:#222; text-align:center;
 	padding-top:4px;
 	z-index:2;
-	opacity:0.7;
+	opacity:0.6;
+} 
+.footer-box:hover {
+	opacity:1;
 }
 
 .navbar {
 	bottom:0;	
-	width:auto; height:32px;
+	width:auto; height:32px; max-width:700px;
 	z-index:3; text-align:center;
 	display:inline-block; 
 }
@@ -217,7 +250,7 @@ p {
 
 #navButtons {
 	float:left;padding-left:10px; padding-right:10px;
-	margin-top:2px;margin:0 auto;
+	margin-top: 2px;margin: 0 auto;
 	width:auto; height:32px;display:inline-block;
 }
 
@@ -320,6 +353,10 @@ p {
 	}
 	
 	#pageNumLabel {
+		padding-left:10px; padding-right:10px;
+	}
+
+	#navLabel {
 		padding-left:10px; padding-right:10px;
 	}
 

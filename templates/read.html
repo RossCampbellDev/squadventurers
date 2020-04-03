@@ -10,7 +10,14 @@
 		function navigate(page) {
 			window.location.assign("/" + page);
 		}
-
+		function navMenu() {
+			var fb = document.getElementsByClassName("fancy-nav-box")[0];
+			if (fb.style.left == "-372px") {
+				fb.style.left="50%";
+			} else {
+				fb.style.left="-372px";
+			}
+		}
 		function changeChapter(page, chapter, move) {
 			if (move == 'next') {
 				window.location.assign("/" + (page + 1) + "/" + (chapter + 1));
@@ -101,6 +108,11 @@
 </head>
 
 <body onload="quotePretty()">
+	<div class="fancy-nav-box" style="left: -372px;">
+		<div class="fancy-nav-button"><img src="/static/images/contents.png" class="fancy-nav-img" /><span class="fancy-nav-text">Contents</span></div>
+		<div class="fancy-nav-button"><img src="/static/images/characters.png" class="fancy-nav-img" /><span class="fancy-nav-text">Characters</span></div>
+		<div class="fancy-nav-button"><img src="/static/images/places.png" class="fancy-nav-img" /><span class="fancy-nav-text">Places</span></div>
+	</div>
 	<div class="title-box">
         	<div class="title-top">SQUADVENTURERS</div>
 	</div>
@@ -156,6 +168,9 @@
 			</div>
 			<div id="pageNumLabel">
 				<p>P: {{ pn }}</p>
+			</div>
+			<div id="navLabel">
+				<img src="/static/images/gear.png" onClick=navMenu() />
 			</div>
 		</div>
 	</div>
