@@ -71,7 +71,7 @@ p {
 	text-align:center;
 	height:100%;
 	line-height:100px;
-	margin-top:-6px; margin-left:-16px;
+	margin-top:-6px; margin-left:-12px;
 	transform: rotate(-2deg);
 	letter-spacing: 12px; transition:0.8s;
 	text-shadow:6px 6px 0px #222; transition:0.8s;
@@ -136,10 +136,14 @@ p {
 }
 
 .char-image {
-	width:330px; height:400px;
-	background-color: rgb(152,64,41);
+	max-width:680px; max-height:400px;
+	/*background-color: rgb(152,64,41);*/
 	float:right; margin-bottom:10px; margin-left:20px;
-	box-shadow: 0px 0px 7px 0px #222;
+	box-shadow: 0px 0px 7px 0px #222;display:inline-block;
+}
+
+.char-image-img {
+	height:400px; max-width:100%; overflow:hidden;
 }
 
 .next {
@@ -307,7 +311,7 @@ p {
 	}
 
 	.content-text {
-		font-size:15px;
+		font-size:17px;
 		padding:10px;
 	}
 
@@ -326,7 +330,19 @@ p {
 	.footer-box {
 		transform: scale(1.0);
 	}
+
 	#donate {
+	}
+
+	.char-image {
+		max-width:100%; max-height:300px;
+		min-width:100%; min-height:140px;
+		float:none; display:inline-block; text-align:center; margin:0 auto;
+		box-shadow:none; margin-bottom:20px;
+	}
+
+	.char-image-img {
+		height:300px; max-width:100%; overflow:hidden;
 	}
 }
 

@@ -27,8 +27,9 @@
 		function quotePretty() {
 			//dimmer cookie
 			var dimmerCookie = document.cookie;
-			dimmerCookie=dimmerCookie.split(';');
+			dimmerCookie = dimmerCookie.split(';');
 			dimmerCookie = dimmerCookie[0];
+
 			if (dimmerCookie.includes("false")) {
 				dimmerSwitch = dimmerCookie;
 				dimmer();
