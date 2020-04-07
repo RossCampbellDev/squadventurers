@@ -12,10 +12,10 @@
 		}
 		function navMenu() {
 			var fb = document.getElementsByClassName("fancy-nav-box")[0];
-			if (fb.style.left == "-372px") {
-				fb.style.left="50%";
+			if (fb.style.bottom == "-70px") {
+				fb.style.bottom="37px";
 			} else {
-				fb.style.left="-372px";
+				fb.style.bottom="-70px";
 			}
 		}
 		function changeChapter(page, chapter, move) {
@@ -108,10 +108,10 @@
 </head>
 
 <body onload="quotePretty()">
-	<div class="fancy-nav-box" style="left: -372px;">
-		<div class="fancy-nav-button"><img src="/static/images/contents.png" class="fancy-nav-img" /><span class="fancy-nav-text">Contents</span></div>
-		<div class="fancy-nav-button"><img src="/static/images/characters.png" class="fancy-nav-img" /><span class="fancy-nav-text">Characters</span></div>
-		<div class="fancy-nav-button"><img src="/static/images/places.png" class="fancy-nav-img" /><span class="fancy-nav-text">Places</span></div>
+	<div class="fancy-nav-box" style="bottom: -70px;" onmouseleave=navMenu()>
+		<div class="fancy-nav-button"><img width=66 height=66 src="/static/images/contents.png" class="fancy-nav-img" /><span class="fancy-nav-text">Contents</span></div>
+		<div class="fancy-nav-button"><img width=66 height=64 src="/static/images/characters.png" class="fancy-nav-img" /><span class="fancy-nav-text">Characters</span></div>
+		<div class="fancy-nav-button"><img width=66 height=66 src="/static/images/places.png" class="fancy-nav-img" /><span class="fancy-nav-text">Places</span></div>
 	</div>
 	<div class="title-box">
         	<div class="title-top">SQUADVENTURERS</div>
