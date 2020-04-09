@@ -11,7 +11,8 @@
 			window.location.assign("/");
 		}
 		function navigate(page) {
-			window.location.assign("/" + chapter + "/" + page);
+			//window.location.assign("/" + chapter + "/" + page);
+			window.location.assign("/" + page);
 		}
 		function navMenu() {
 			var fb = document.getElementsByClassName("fancy-nav-box")[0];
@@ -109,19 +110,69 @@
 		}
 
 		function show(s) {
-			var c = document.getElementById("show-info");
-	 		var h = c.clientHeight;
-			if (c.style.bottom == "-600px") {
+			var contents = document.getElementById("Contents-div");
+			var chars = document.getElementById("Characters-div");
+			var places = document.getElementById("Places-div");
+
+	 		var c = document.getElementById("show-info");
+			var h = c.offsetHeight;
+
+			if (c.style.bottom != "38px") {
 	 			c.style.bottom = "38px";
-	 		} else {
-	 			c.style.bottom = "-600px";
+			} else {
+	 			//c.style.bottom = (0-h) + "px";
 	 		}
+
+			switch(s) {
+				case "Contents":
+					chars.style.display = "none";
+					places.style.display = "none";
+					contents.style.display = "block";
+					break;
+				case "Characters":
+					places.style.display = "none";
+					contents.style.display = "none";
+					chars.style.display = "block";
+					break;
+				case "Places":
+					chars.style.display = "none";
+					contents.style.display = "none";
+					places.style.display = "block";
+					break;
+				default:
+	 				c.style.bottom = (0-h) + "px";
+					break;
+			}
 		}
 	</script>
 </head>
 
 <body onload="quotePretty()">
-	<div id="show-info" style="bottom:-600px;" onmouseleave=show(null)></div>
+
+	{% set cn = thisPage.chapterNum %}
+	{% set pn = thisPage.absoluteCount %}
+
+	<div id="show-info" style="bottom:-1px;" onmouseleave=show(null)>
+		<div class="show-info-content" id="Contents-div">
+			{% set nextcn = namespace(value=0) %}
+			{% for chapter in contents %}
+				<div class="show-info-row" onClick="changeChapter({{ pn }}, {{ nextcn.value }}, 'next')"=>{{ chapter }}</div>
+				{% set nextcn.value = nextcn.value + 1 %}
+			{% endfor %}
+		</div>
+
+		<div class="show-info-content" id="Characters-div">
+			{% for char in characters %}
+			<div class="show-info-row"><a target=_blank href=/bio/{{ char.split(',')[0] }} style="color:#feffd6;">{{ char }}</a></div>
+			{% endfor %}
+		</div>
+
+		<div class="show-info-content" id="Places-div">
+			{% for place in places %}
+			<div class="show-info-row"><a target=_blank href=/bio/{{ place }} style="color:#feffd6;">{{ place }}</a></div>
+			{% endfor %}
+		</div>
+	</div>
 
 	<div class="fancy-nav-box" style="bottom: -70px;" onmouseleave=navMenu()>
 		<div onclick="show('Contents')" class="fancy-nav-button"><img width=66 height=66 src="/static/images/contents.png" class="fancy-nav-img" /><span class="fancy-nav-text">Contents</span></div>
@@ -138,9 +189,6 @@
    	<div class="content-main">
     		<div class="content-text" id="content-text">{{ thisPage.pageText|safe }}</div>
     	</div>
-
-	{% set cn = thisPage.chapterNum %}
-	{% set pn = thisPage.absoluteCount %}
 
 	<div class="footer-box">
 		<div class="navbar">

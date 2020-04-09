@@ -46,6 +46,36 @@ def read(pageNum, chapterNum):
     # print("total unique visitors:\t%d" % count)
 
 
+    # set up the three nav arrays
+    contents = []
+    characters = []
+    places = []
+
+    with open("snakes/chapters") as f:
+        count = 0
+        fl = f.readlines()
+        for l in fl:
+            if len(l) > 0:
+                count = count + 1
+                contents.append("%d. %s" % (count,l))
+
+    with open("snakes/characters") as f:
+        count = 0
+        fl = f.readlines()
+        for l in fl:
+            if len(l) > 0:
+                count = count+ 1
+                characters.append("%s" % l)
+
+    with open("snakes/places") as f:
+        count = 0
+        fl = f.readlines()
+        for l in fl:
+            if len(l) > 0:
+                count = count+ 1
+                places.append("%s" % l)
+
+    # set up the page (book text and chapter etc
     thisPage={}
     
     if pageNum == "None":
@@ -65,7 +95,7 @@ def read(pageNum, chapterNum):
                 thisPage["absoluteCount"] = int(page["absoluteCount"])
                 thisPage["pageText"] = page["pageText"]
                 thisPage["chapterNum"] = int(page["chapterNum"])
-                return render_template("read.html", thisPage=thisPage)
+                return render_template("read.html", thisPage=thisPage, contents=contents, characters=characters, places=places)
 
 
     # look for the searched-for page within the JSON data
@@ -74,7 +104,7 @@ def read(pageNum, chapterNum):
             thisPage["absoluteCount"] = int(page["absoluteCount"])
             thisPage["pageText"] = page["pageText"]
             thisPage["chapterNum"] = int(page["chapterNum"])
-            return render_template("read.html", thisPage=thisPage)
+            return render_template("read.html", thisPage=thisPage, contents=contents, characters=characters, places=places)
 
     # if we're not looking for a specific page or chapter, go to the index
     return render_template("index.html")
