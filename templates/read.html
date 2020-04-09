@@ -7,8 +7,11 @@
 	<link rel="stylesheet" href="/static/bored.css">
 	<script type="text/javascript">
 		window.dimmerSwitch = true;
+		function gohome() {
+			window.location.assign("/");
+		}
 		function navigate(page) {
-			window.location.assign("/" + page);
+			window.location.assign("/" + chapter + "/" + page);
 		}
 		function navMenu() {
 			var fb = document.getElementsByClassName("fancy-nav-box")[0];
@@ -104,18 +107,33 @@
 			dimmerSwitch = !dimmerSwitch;
 			document.cookie = "dimmerCookie=" + dimmerSwitch + ";";
 		}
+
+		function show(s) {
+			var c = document.getElementById("show-info");
+	 		var h = c.clientHeight;
+			if (c.style.bottom == "-600px") {
+	 			c.style.bottom = "38px";
+	 		} else {
+	 			c.style.bottom = "-600px";
+	 		}
+		}
 	</script>
 </head>
 
 <body onload="quotePretty()">
+	<div id="show-info" style="bottom:-600px;" onmouseleave=show(null)></div>
+
 	<div class="fancy-nav-box" style="bottom: -70px;" onmouseleave=navMenu()>
-		<div class="fancy-nav-button"><img width=66 height=66 src="/static/images/contents.png" class="fancy-nav-img" /><span class="fancy-nav-text">Contents</span></div>
-		<div class="fancy-nav-button"><img width=66 height=64 src="/static/images/characters.png" class="fancy-nav-img" /><span class="fancy-nav-text">Characters</span></div>
-		<div class="fancy-nav-button"><img width=66 height=66 src="/static/images/places.png" class="fancy-nav-img" /><span class="fancy-nav-text">Places</span></div>
+		<div onclick="show('Contents')" class="fancy-nav-button"><img width=66 height=66 src="/static/images/contents.png" class="fancy-nav-img" /><span class="fancy-nav-text">Contents</span></div>
+		<div  onclick="show('Characters')"class="fancy-nav-button"><img width=66 height=64 src="/static/images/characters.png" class="fancy-nav-img" /><span class="fancy-nav-text">Characters</span></div>
+		<div  onclick="show('Places')"class="fancy-nav-button"><img width=66 height=66 src="/static/images/places.png" class="fancy-nav-img" /><span class="fancy-nav-text">Places</span></div>
 	</div>
+
+
 	<div class="title-box">
-        	<div class="title-top">SQUADVENTURERS</div>
+        	<div class="title-top" onclick=gohome()>SQUADVENTURERS</div>
 	</div>
+
 
    	<div class="content-main">
     		<div class="content-text" id="content-text">{{ thisPage.pageText|safe }}</div>

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>StoryBored</title>
+	<title>Squadventurers</title>
 	<link rel="stylesheet" href="/static/bored.css">
 	<script type="text/javascript">
 		function navigate(chapter, page) {
@@ -16,29 +16,16 @@
 </head>
 
 <body>
-	<div class="title-box">
-        	<div class="title-top">SQUADVENTURERS</div>
-	</div>
-	<div class="footer-box">
-		<div class="navbar">
-			<div id="navButtons">
-			</div>
-			<div id="fontSizes">
-				<img class="fontImage" src="/static/images/font1.png" onClick=fontScale(17) />
-				<img class="fontImage" src="/static/images/font2.png" onClick=fontScale(22) />
-				<img class="fontImage" src="/static/images/font3.png" onClick=fontScale(27) />
-			</div>
+	<div id="home-title">
+		<div style="position: absolute; display: table-cell; height: 100%; width: 100%; vertical-align: middle;">
+			<div class="title-top" style="font-size: 150px; height: auto;">SQUADVENTURERS</div>
 		</div>
 	</div>
-
-   <div class="content-main">
-   <div class="title-main">Welcome</div>
-	   <div class="title-sub">You sombitch</div>
-	   <div class="content-text" id="content-text">GTFO and read <a href="/1/1">here</a></div>
-    </div>
-    
-
-    <!--<div class="character-box"><img src="images/test.png" width=120 height=120 /></div>-->
+	<div id="home-div">
+		<div style="margin-top: 50px;">
+			<div class="home-nav" onclick=navigate(1,1)>1.&nbsp;&nbsp;What's the worst that could happen?</div>
+		</div>
+	</div>
 </body>
 </html>
 

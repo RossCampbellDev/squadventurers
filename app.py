@@ -9,16 +9,19 @@ app = Flask(__name__) #create app variable and make instance of Flask class
 
 
 # behaviour for the index page and reading chapters
-@app.route("/", defaults={"pageNum":"None","chapterNum":"None"})
-@app.route("/index", defaults={"pageNum":"None","chapterNum":"None"})
-@app.route("/home", defaults={"chapterNum":"None","pageNum":"None"})
+@app.route("/",)
+@app.route("/index")
+@app.route("/home")
+def home():
+    return render_template('index.html')
+
 @app.route("/<pageNum>", defaults={"chapterNum":"None"})
 @app.route("/<pageNum>/<chapterNum>")
 #@app.route("/", defaults={"pageNum":"None"})
 #@app.route("/index", defaults={"pageNum":"None"})
 #@app.route("/home", defaults={"pageNum":"None"})
 #@app.route("/<pageNum>")
-def home(pageNum, chapterNum):
+def read(pageNum, chapterNum):
     # check for new unique visitor
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
         IP = request.environ['REMOTE_ADDR']
