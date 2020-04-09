@@ -8,6 +8,43 @@ app = Flask(__name__) #create app variable and make instance of Flask class
 # app.config['SERVER_NAME'] = 'squadventurers.co.uk:80'
 
 
+
+def capitalise(s):
+    return ' '.join(w[0].upper() + w[1:].lower() for w in s.split(' '))
+
+# set up the three nav arrays
+contents = []
+characters = []
+places = []
+
+def setupNavInfo():
+    count = 0
+    with open("snakes/chapters") as f:
+        count = 0
+        fl = f.readlines()
+        for l in fl:
+            if len(l) > 0:
+                count = count + 1
+                contents.append("%d.  %s" % (count, capitalise(l)))
+
+    with open("snakes/characters") as f:
+        count = 0
+        fl = f.readlines()
+        for l in fl:
+            if len(l) > 0:
+                count = count+ 1
+                characters.append("%s" % l)
+
+    with open("snakes/places") as f:
+        count = 0
+        fl = f.readlines()
+        for l in fl:
+            if len(l) > 0:
+                count = count+ 1
+                places.append("%s" % l)
+
+
+
 # behaviour for the index page and reading chapters
 @app.route("/",)
 @app.route("/index")
@@ -45,35 +82,6 @@ def read(pageNum, chapterNum):
         f.close()
     # print("total unique visitors:\t%d" % count)
 
-
-    # set up the three nav arrays
-    contents = []
-    characters = []
-    places = []
-
-    with open("snakes/chapters") as f:
-        count = 0
-        fl = f.readlines()
-        for l in fl:
-            if len(l) > 0:
-                count = count + 1
-                contents.append("%d. %s" % (count,l))
-
-    with open("snakes/characters") as f:
-        count = 0
-        fl = f.readlines()
-        for l in fl:
-            if len(l) > 0:
-                count = count+ 1
-                characters.append("%s" % l)
-
-    with open("snakes/places") as f:
-        count = 0
-        fl = f.readlines()
-        for l in fl:
-            if len(l) > 0:
-                count = count+ 1
-                places.append("%s" % l)
 
     # set up the page (book text and chapter etc
     thisPage={}
@@ -163,7 +171,7 @@ def bio(nameIn):
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
-
 if __name__ == "__main__":
+    setupNavInfo()
     app.run(debug=True, host="0.0.0.0", port=8080)
 

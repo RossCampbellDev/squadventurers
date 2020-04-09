@@ -18,7 +18,7 @@ html {
 body {
 	min-height:100%;
     	margin: 0;
-    	background:#984029;/*#8E3624;*/
+    	background: #8B3828;/*#984029;*//*#8E3624;*/
 	transition:0.8s;
 	overflow: hidden;
 	box-shadow: inset 0 0 500px black;
@@ -26,12 +26,12 @@ body {
 }
 
 a {
-	color:#660025;
+	color:#701010;
 	text-decoration:none;
 }
 
 a:hover {
-	text-shadow: 0 0 4px #540a24; transition:0.8s;
+	text-shadow: 0 0 4px #C02525; transition:0.3s;
 
 }
 
@@ -51,26 +51,23 @@ p {
 /*******************/
 /*   LAYOUT STUFF  */
 /*******************/
-#home-div {
-	position: fixed;
-	display: inline-block; float: right;
+#home-title {
 	margin: auto;
-	width: 40%; min-height: 100%;
-	top: 0; bottom: 0; right: 0;
-	box-shadow: inset 1px 0 0 0 #feffd6;
+	width: 100%; height: 200px;
+	top: 0; bottom: 0; left: 0;
+	text-align: center;
+	margin-top: 5%; padding-bottom: 8px;
+	border-bottom: 1px solid #feffd6;
 }
 
-#home-title {
-	position: fixed;
-	display: inline-block; float: left;
+#home-div {
 	margin: auto;
-	width: 60%; height: 160px;
-	top: 0; bottom: 0; left: 0;
-	text-align: center; vertical-align: middle;
+	width: 100%; min-height: auto; margin-top:4px;
+	top: 0; bottom: 0; right: 0;
 }
 
 .home-nav {
-	text-align: center; color: #1a1a1a;
+	text-align: center; color: #555;
 	font-family: 'Courgette', cursive;
 	font-size: 40px; font-weight: bold;
 	padding: 10px;
@@ -78,7 +75,7 @@ p {
 }
 
 .home-nav:hover {
-	color: #feffd6; cursor: pointer;
+	color: #feffd6; cursor: pointer; background-color: #15602C;
 }
 
 .title-box {
@@ -137,7 +134,7 @@ p {
 	z-index:1;
 	width:740px;
 	height:auto; max-height:100%;
-	margin-top:10px; margin-bottom:60px;
+	margin-top:10px; margin-bottom:50px;
 	margin-left:auto; margin-right:auto;
 	padding:2px;
 	box-shadow: 0px 0px 10px 4px #222;
@@ -181,11 +178,11 @@ p {
 }
 
 #chapterNumLabel {
-	float:left;margin:0 auto;padding-left:50px; padding-right:50px;display:inline-block;margin:0 auto;
+	float:left;margin:0 auto;padding-left:40px; padding-right:40px;display:inline-block;margin:0 auto;
 }
 
 #pageNumLabel {
-	float:left;padding-left:50px; padding-right:50px;display:inline-block;margin:0 auto;
+	float:left;padding-left:40px; padding-right:40px;display:inline-block;margin:0 auto;
 }
 
 #navLabel {
@@ -199,7 +196,7 @@ p {
 
 #lightImage {
 	float:left;width:30px; height:30px;padding-left:10px;padding-right:10px; display:inline-block;margin:0 auto;
-	transition: 0.8s;
+	transition: 0.8s; margin-left: 3%;
 }
 
 #lightImage:hover {
@@ -214,7 +211,7 @@ p {
 	position: fixed; bottom: -70px;
 	margin-left: -372px; left: 50%;
 	height: 70px; width: 744px;
-	background-color: #222; opacity:0.6;
+	background-color: #222; opacity:0.4;
 	padding-top: 2px; padding-bottom: 2px; transition:0.5s;
 	z-index: 5;
 }
@@ -228,7 +225,7 @@ p {
 	width: 244px; height: 66px;
 	margin: 2px;
 	color: #feffd4;	font-size: 32px; 
-	transition: 0.6s;
+	transition: 0.4s;
 	font-family: 'Bangers', cursive;
 	text-shadow: 3px 3px 0px #222;
 }
@@ -266,7 +263,7 @@ p {
 	display: none;
 	margin: 4px;
 	text-align: center;
-	font-family: 'Verdana';
+	font-family: 'Arial';
 	columns: 358px 2;
 	-webkit-columns: 2;
 	-moz-columns: 2;
@@ -276,8 +273,7 @@ p {
 	width: 358px; height: auto; text-align: center;
 	margin: 4px;
 	font-size: 16px; color: #feffd6; transition: 0.3s;
-	padding-top: 2px; padding-bottom: 4px;
-}
+	padding: 4px; padding-bottom: 6px;}
 
 .show-info-row:hover {
 	background-color: #15602C; cursor: pointer;
@@ -289,7 +285,7 @@ p {
 	background-color:#222; text-align:center;
 	padding-top:4px;
 	z-index:6;
-	opacity:0.6;
+	opacity:0.7;
 } 
 .footer-box:hover {
 	opacity:1;

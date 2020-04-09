@@ -16,10 +16,10 @@
 		}
 		function navMenu() {
 			var fb = document.getElementsByClassName("fancy-nav-box")[0];
-			if (fb.style.bottom == "-70px") {
+			if (fb.style.bottom == "-74px") {
 				fb.style.bottom="37px";
 			} else {
-				fb.style.bottom="-70px";
+				fb.style.bottom="-74px";
 			}
 		}
 		function changeChapter(page, chapter, move) {
@@ -106,7 +106,7 @@
 			}
 
 			dimmerSwitch = !dimmerSwitch;
-			document.cookie = "dimmerCookie=" + dimmerSwitch + ";";
+			document.cookie = "name=dimmerCookie=" + dimmerSwitch + "path=/;";
 		}
 
 		function show(s) {
@@ -144,19 +144,22 @@
 					break;
 			}
 		}
+		function start() {
+			quotePretty();
+		}
 	</script>
 </head>
 
-<body onload="quotePretty()">
+<body onload="start()">
 
 	{% set cn = thisPage.chapterNum %}
 	{% set pn = thisPage.absoluteCount %}
 
-	<div id="show-info" style="bottom:-1px;" onmouseleave=show(null)>
+	<div id="show-info" style="bottom:-10px;" onmouseleave=show(null)>
 		<div class="show-info-content" id="Contents-div">
 			{% set nextcn = namespace(value=0) %}
 			{% for chapter in contents %}
-				<div class="show-info-row" onClick="changeChapter({{ pn }}, {{ nextcn.value }}, 'next')"=>{{ chapter }}</div>
+				<div class="show-info-row" onClick="changeChapter({{ pn }}, {{ nextcn.value }}, 'next')" style="text-align:left;">{{ chapter }}</div>
 				{% set nextcn.value = nextcn.value + 1 %}
 			{% endfor %}
 		</div>
@@ -174,7 +177,7 @@
 		</div>
 	</div>
 
-	<div class="fancy-nav-box" style="bottom: -70px;" onmouseleave=navMenu()>
+	<div class="fancy-nav-box" style="bottom: -74px;" onmouseleave=navMenu()>
 		<div onclick="show('Contents')" class="fancy-nav-button"><img width=66 height=66 src="/static/images/contents.png" class="fancy-nav-img" /><span class="fancy-nav-text">Contents</span></div>
 		<div  onclick="show('Characters')"class="fancy-nav-button"><img width=66 height=64 src="/static/images/characters.png" class="fancy-nav-img" /><span class="fancy-nav-text">Characters</span></div>
 		<div  onclick="show('Places')"class="fancy-nav-button"><img width=66 height=66 src="/static/images/places.png" class="fancy-nav-img" /><span class="fancy-nav-text">Places</span></div>
@@ -196,7 +199,7 @@
 				<img src="/static/images/light.png" id='lightSwitch' onClick=dimmer() />
 			</div>
 			<div id="chapterNumLabel">
-				<p>Ch: {{ cn }}</p>
+				<p style="color: #C02525;">Ch: {{ cn }}</p>
 			</div>
 			<div id="navButtons">
 
@@ -233,7 +236,7 @@
 				<img class="fontImage" src="/static/images/font3.png" onClick=fontScale(27) />
 			</div>
 			<div id="pageNumLabel">
-				<p>P: {{ pn }}</p>
+				<p style="color: #22903c;">P: {{ pn }}</p>
 			</div>
 			<div id="navLabel">
 				<img src="/static/images/gear.png" onClick=navMenu() />
