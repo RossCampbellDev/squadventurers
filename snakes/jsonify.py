@@ -15,9 +15,9 @@ def jsonify(f, page):
 
     # while there are characters remaining in the file
     while page != "":
-	# if its the start of the entire thing no need to check anything, just create the JSON page
+        # if its the start of the entire thing no need to check anything, just create the JSON page
         # page { chapterNumber:1, pageNumber:1, pageText:"hello there" }
-	if start:
+        if start:
             start = False
             # find the last space that occurs, and end the page immediately before it (find last whole word within 1kb)
             lastChar = page.rfind(" ")
@@ -32,7 +32,7 @@ def jsonify(f, page):
 
             # then add any remaining characters to the next page
             carryOver = page[lastChar:pageSize]
-	else:
+        else:
             # increment the absolute count - from 1 to number of pages total
             absoluteCount += 1
 
@@ -64,8 +64,8 @@ def jsonify(f, page):
             
             # remaining characters to next page
             carryOver = page[lastChar:pageSize]
-		
-	# read next kb
+                
+        # read next kb
         page = f.read(pageSize)
 
     return pagesDictionary

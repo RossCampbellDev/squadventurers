@@ -7,8 +7,6 @@ from flask import Flask, render_template, send_from_directory, request
 app = Flask(__name__) #create app variable and make instance of Flask class
 # app.config['SERVER_NAME'] = 'squadventurers.co.uk:80'
 
-
-
 def capitalise(s):
     return ' '.join(w[0].upper() + w[1:].lower() for w in s.split(' '))
 
@@ -16,6 +14,8 @@ def capitalise(s):
 contents = []
 characters = []
 places = []
+
+setupNavInfo()
 
 def setupNavInfo():
     count = 0
@@ -65,24 +65,6 @@ def read(pageNum, chapterNum):
     else:
         IP = request.environ['HTTP_X_FORWARDED_FOR'] #proxy
 
-    unique = True # always assume new visitor
-    count = 0
-    with open("visitors") as f:
-        fl = f.readlines()
-        for l in fl:
-            count = count + 1
-            if l.replace("\n","") == IP:
-                unique = False
-
-
-    if unique:
-        f = open("visitors","a+")
-        count = count + 1
-        f.write(IP + "\n")
-        f.close()
-    # print("total unique visitors:\t%d" % count)
-
-
     # set up the page (book text and chapter etc
     thisPage={}
     
@@ -94,6 +76,10 @@ def read(pageNum, chapterNum):
         j = json.load(f)
 
     pageNum = int(pageNum)
+
+    # look for unique visitors - almost certainly gonna be ppl on page 1!
+    if pageNum == 1:
+        checkIP()
 
     # looking for a specific chapter, so return the right page as soon as we find it
     if chapterNum != "None":
@@ -167,10 +153,29 @@ def bio(nameIn):
 
     return ""
 
+def checkIP():
+    unique = True # always assume new visitor
+    count = 0
+    with open("visitors") as f:
+        fl = f.readlines()
+        for l in fl:
+            count = count + 1
+            if l.replace("\n","") == IP:
+                unique = False
+
+
+    if unique:
+        f = open("visitors","a+")
+        count = count + 1
+        f.write(IP + "\n")
+        f.close()
+    # print("total unique visitors:\t%d" % count)
+
+
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 if __name__ == "__main__":
-    setupNavInfo()
+    # if hosting on pythonanywhere, comment the app.run line
     app.run(debug=True, host="0.0.0.0", port=8080)
