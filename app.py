@@ -15,8 +15,6 @@ contents = []
 characters = []
 places = []
 
-setupNavInfo()
-
 def setupNavInfo():
     count = 0
     with open("snakes/chapters") as f:
@@ -44,6 +42,32 @@ def setupNavInfo():
                 places.append("%s" % l)
 
 
+setupNavInfo()
+
+def checkIP():
+    # check for new unique visitor
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        IP = request.environ['REMOTE_ADDR']
+    else:
+        IP = request.environ['HTTP_X_FORWARDED_FOR'] #proxy
+
+    unique = True # always assume new visitor
+    count = 0
+    with open("visitors") as f:
+        fl = f.readlines()
+        for l in fl:
+            count = count + 1
+            if l.replace("\n","") == IP:
+                unique = False
+
+
+    if unique:
+        f = open("visitors","a+")
+        count = count + 1
+        f.write(IP + "\n")
+        f.close()
+    # print("total unique visitors:\t%d" % count)
+
 
 # behaviour for the index page and reading chapters
 @app.route("/",)
@@ -59,12 +83,6 @@ def home():
 #@app.route("/home", defaults={"pageNum":"None"})
 #@app.route("/<pageNum>")
 def read(pageNum, chapterNum):
-    # check for new unique visitor
-    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-        IP = request.environ['REMOTE_ADDR']
-    else:
-        IP = request.environ['HTTP_X_FORWARDED_FOR'] #proxy
-
     # set up the page (book text and chapter etc
     thisPage={}
     
@@ -152,25 +170,6 @@ def bio(nameIn):
         return "<content-title>Bio Page</content-title>"
 
     return ""
-
-def checkIP():
-    unique = True # always assume new visitor
-    count = 0
-    with open("visitors") as f:
-        fl = f.readlines()
-        for l in fl:
-            count = count + 1
-            if l.replace("\n","") == IP:
-                unique = False
-
-
-    if unique:
-        f = open("visitors","a+")
-        count = count + 1
-        f.write(IP + "\n")
-        f.close()
-    # print("total unique visitors:\t%d" % count)
-
 
 @app.route('/favicon.ico')
 def favicon():
