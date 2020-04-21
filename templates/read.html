@@ -155,6 +155,8 @@
 	{% set cn = thisPage.chapterNum %}
 	{% set pn = thisPage.absoluteCount %}
 
+	<a href="/logout"><div id="logout-box"><img src="/static/images/logout.png" width=40 height=40 /></div></a>
+
 	<div id="show-info" style="bottom:-10px;" onmouseleave=show(null)>
 		<div class="show-info-content" id="Contents-div">
 			{% set nextcn = namespace(value=0) %}
@@ -199,7 +201,7 @@
 				<img src="/static/images/light.png" id='lightSwitch' onClick=dimmer() />
 			</div>
 			<div id="chapterNumLabel">
-				<p style="color: #C02525;">Ch: {{ cn }}</p>
+				<p>Ch: {{ cn }}</p> <!--style="color: #C02525;"-->
 			</div>
 			<div id="navButtons">
 
@@ -236,7 +238,7 @@
 				<img class="fontImage" src="/static/images/font3.png" onClick=fontScale(27) />
 			</div>
 			<div id="pageNumLabel">
-				<p style="color: #22903c;">P: {{ pn }}</p>
+				<p>P: {{ pn }}</p> <!--style="color: #22903c;"-->
 			</div>
 			<div id="navLabel">
 				<img src="/static/images/gear.png" onClick=navMenu() />

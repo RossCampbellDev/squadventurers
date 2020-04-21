@@ -51,6 +51,33 @@ p {
 /*******************/
 /*   LAYOUT STUFF  */
 /*******************/
+#login-box {
+	width: 600px; margin: 0 auto;
+}
+
+.login-input {
+	width: 100%; height: 40px; font-size: 30px;
+	text-align: center;
+	background-color:#feffd4;
+}
+
+#logout-box {
+	position: fixed; left:4px; top 4px;
+	width: 40px; height: 40px; z-index: 10;
+	padding: 1px;
+}
+
+#logout-box:hover {
+	border: 1px solid #660000;
+	border-radius: 5px; padding: 0px;
+}
+
+#go-button {
+	margin: 0 auto; margin-left: 200px; margin-right: 200px; margin-top: 30px;
+	width: 200px; height: 44px; font-size: 32px; font-weight: bold;
+       	color: #222; font-family: 'Vibur', cursive;
+}
+
 #home-title {
 	width: 100%; height: 220px;
 	text-align: center;
@@ -101,6 +128,15 @@ p {
 	color: #feffd6; cursor: pointer; background-color: #15602C;
 }
 
+
+.login-label {
+	text-align: center; color: #999;
+	font-family: 'Courgette', cursive;
+	font-size: 40px; font-weight: bold;
+	padding: 10px;
+	transition:0.6s;
+}
+
 .title-box {
 	min-width:100%; height:120px;
 	top:0;
@@ -111,6 +147,7 @@ p {
 }
 
 .title-top {
+	width: 740px;
 	font-size:95px;
 	font-weight:bold;
 	padding-top:15px;
@@ -119,8 +156,8 @@ p {
 	color:#feffd4;
 	text-align:center;
 	height:100%;
-	line-height:100px;
 	margin-top:-6px; margin-left:-12px;
+	line-height:100px; margin: 0 auto;
 	transform: rotate(-2deg);
 	letter-spacing: 12px; transition:0.8s;
 	text-shadow:6px 6px 0px #222; transition:0.8s;
@@ -140,7 +177,7 @@ p {
 	height:auto;
 	line-height:100%;
 	letter-spacing:0px;
-	transition:0s;
+	transition:0s;color:#333;
 }
 
 .title-sub {
@@ -149,7 +186,7 @@ p {
 	font-family: 'Vibur', cursive;
 	text-align:center;
 	line-height:130%;
-	transition:0s;
+	transition:0s;color:#333;
 }
 
 
@@ -183,13 +220,15 @@ p {
 	color: #15602C; text-align:center;
 	margin-top: 20px; margin-bottom: 20px;
 	font-family: 'Courgette', cursive; line-height:130%;
+	color:#222;
 }
 
 .char-image {
 	max-width:680px; max-height:400px;
 	/*background-color: rgb(152,64,41);*/
 	float:right; margin-bottom:10px; margin-left:20px;
-	box-shadow: 0px 0px 7px 0px #222;display:inline-block;
+	display:inline-block;
+	/*box-shadow: 0px 0px 7px 0px #222;*/
 }
 
 .char-image-img {
@@ -308,7 +347,7 @@ p {
 	background-color:#222; text-align:center;
 	padding-top:4px;
 	z-index:6;
-	opacity:0.7;
+	opacity:0.7; transition: 0.5s;
 } 
 .footer-box:hover {
 	opacity:1;
@@ -526,6 +565,15 @@ p {
 
 	#cpright {
 		top: 4px;
+		height: 10px;
+	}
+
+	.login-input {
+		width: 400px; height: 36px; font-size: 30px;
+	}
+
+	#login-box {
+		width: 400px;
 	}
 }
 

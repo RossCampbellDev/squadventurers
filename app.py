@@ -1,11 +1,31 @@
 #!/usr/bin/python3.6
+from flask import Flask, render_template, send_from_directory, request, session
+# from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_mysqldb import MySQL
+import flask_login
 import json
 import os
 import random
-from flask import Flask, render_template, send_from_directory, request
+import pymysql
+#from flask_mysqldb import MySQl
 
+db = pymysql.connect("localhost", "gandalf", "300LivesOfMen!", "BookDatabase")
 app = Flask(__name__) #create app variable and make instance of Flask class
-# app.config['SERVER_NAME'] = 'squadventurers.co.uk:80'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Squadventurers.db'
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#db = SQLAlchemy(app)
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'gandalf'
+app.config['MYSQL_PASSWORD'] = '300LivesOfMen!'
+app.config['MYSQL_DB'] = 'BookDatabase'
+db = MySQL(app)
+
+# set up login test vars
+user = ""
+userpass = ""
+paidup = False
 
 def capitalise(s):
     return ' '.join(w[0].upper() + w[1:].lower() for w in s.split(' '))
@@ -16,6 +36,7 @@ characters = []
 places = []
 
 def setupNavInfo():
+    # get the navigation pane data
     count = 0
     with open("snakes/chapters") as f:
         count = 0
@@ -68,21 +89,62 @@ def checkIP():
         f.close()
     # print("total unique visitors:\t%d" % count)
 
+# logout
+@app.route("/logout")
+def logout():
+    session['logged-in'] = False
+    app.secret_key = os.urandom(12)
+    return home()
+
 
 # behaviour for the index page and reading chapters
-@app.route("/",)
+@app.route("/", methods=['POST'])
+@app.route("/index", methods=['POST'])
+@app.route("/home", methods=['POST'])
+def checkLogin():
+    if session.get('logged-in'):
+        return home()
+
+    # check if user logged in
+    if request.method == "POST":
+        user = request.form['user']
+        userpass = request.form['userpass'].encode('utf-8')
+        b = Bcrypt()
+        # userpass = b.generate_password_hash(userpass)
+        cursor = db.connection.cursor()
+        cursor.execute("SELECT PaidUp,PassPhrase FROM People WHERE UserName=%s", (user,))
+        
+        results = cursor.fetchall()
+        cursor.close()
+        
+        paidup = 0
+        if len(results) > 0:
+            if b.check_password_hash(results[0][1].encode('utf-8'), userpass):
+                paidup = results[0][0]
+                session['logged-in'] = True
+            else:
+                session['logged-in'] = False
+
+    return home()
+
+
+@app.route("/")
 @app.route("/index")
 @app.route("/home")
 def home():
-    return render_template('index.html')
+    # check login and then render template
+    if session.get('logged-in'):
+        return render_template('index.html')
+
+    return render_template('login.html')
+
 
 @app.route("/<pageNum>", defaults={"chapterNum":"None"})
 @app.route("/<pageNum>/<chapterNum>")
-#@app.route("/", defaults={"pageNum":"None"})
-#@app.route("/index", defaults={"pageNum":"None"})
-#@app.route("/home", defaults={"pageNum":"None"})
-#@app.route("/<pageNum>")
 def read(pageNum, chapterNum):
+    if not session.get('logged-in'):
+        return home()
+
     # set up the page (book text and chapter etc
     thisPage={}
     
@@ -127,6 +189,9 @@ def read(pageNum, chapterNum):
 @app.route("/bio", defaults={"nameIn":"None"})
 @app.route("/bio/<nameIn>")
 def bio(nameIn):
+    if not session.get('logged-in'):
+        return home()
+
     bios=[]
     temp_bio={}
 
@@ -176,5 +241,6 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 if __name__ == "__main__":
+    app.secret_key = os.urandom(12)
     # if hosting on pythonanywhere, comment the app.run line
     app.run(debug=True, host="0.0.0.0", port=8080)

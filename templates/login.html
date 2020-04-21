@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Squadventurers</title>
+	<link rel="stylesheet" href="/static/bored.css">
+	<script type="text/javascript">
+		function navigate(chapter, page) {
+			window.location.assign("/" + chapter + "/" + page);
+		}
+		function fontScale(n) {
+			var t = document.getElementById("content-text");
+			t.style.fontSize = n + "px";
+		}
+	</script>
+</head>
+
+<body style="background-color:#333;">
+	<div id="home-title">
+		<div> 
+			<div id="home-title-top">SQUADVENTURERS</div>
+			<div id="home-title-top" style="transform: scale(0.6); margin-top: 6px; margin-left: 10px;">Login:</div>
+		</div>
+	</div>
+	<div id="home-div">
+		<div id="login-box">
+			<form action="{{ url_for('home') }}" method="post">
+				<div class="login-label">User Name:</div>
+				<input class="login-input" name=user type=text />
+				<div class="login-label">Password:</div>
+				<input class="login-input" name=userpass type=password />
+				<input type=submit id="go-button" value="Go!" />
+			</form>
+		</div>
+	</div>
+	<div id="cpright">Unpublished work &copy; 2020 Ross Campbell All Rights Reserved</div>
+</body>
+</html>
