@@ -31,7 +31,7 @@
 			}
 
 			if (email.value.length == 0 || email.value.length > 50){
-				success = false; msg=msg+"enter a sensible username you chump\n";
+				success = false; msg=msg+"we need your email so we can send spam\n";
 			} else if(!email.value.match(regex)) {
 				success = false; msg=msg+"your email address must have been written by an ape\n";
 			}
@@ -75,23 +75,23 @@
 
 		<div id="login-box">
 			<form id="f1" action="{{ url_for('createUser') }}" method="post">
-				<div class="login-label">First Name:</div>
-				<input class="login-input" name=fname type=text placeholder="Samwise" />
+				<div class="register-label">First Name:</div>
+				<input class="register-input" name=fname type=text placeholder="Samwise" />
 
-				<div class="login-label">Last Name:</div>
-				<input class="login-input" name=lname type=text placeholder="Gamgee" />
+				<div class="register-label">Last Name:</div>
+				<input class="register-input" name=lname type=text placeholder="Gamgee" />
 
-				<div class="login-label">User Name:</div>
-				<input class="login-input" name=user type=text placeholder="RealHero9" />
+				<div class="register-label">User Name:</div>
+				<input class="register-input" name=user type=text placeholder="RealHero9" />
 
-				<div class="login-label">e-Mail:</div>
-				<input class="login-input" name=email type=text placeholder="lembasfan@crumbs.com" />
+				<div class="register-label">e-Mail:</div>
+				<input class="register-input" name=email type=text placeholder="lembasfan@crumbs.com" />
 
-				<div class="login-label">Password:</div>
-				<input class="login-input" name=userpass type=password />
+				<div class="register-label">Password:</div>
+				<input class="register-input" name=userpass type=password />
 
-				<div class="login-label">Have you paid Ross some money?:</div>
-				<input class="login-input" name=paidup type=checkbox />
+				<div class="register-label">Have you paid Ross some money?:</div>
+				<input class="register-input" name=paidup type=checkbox />
 			</form>
 
 			<div style="width:100%; text-align: center;">

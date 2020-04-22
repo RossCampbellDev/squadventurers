@@ -7,7 +7,8 @@ import flask_login
 import json
 import os
 import random
-import pymysql
+from datetime import timedelta
+#import pymysql
 #from flask_mysqldb import MySQl
 
 #db = pymysql.connect("localhost", "gandalf", "300LivesOfMen!", "BookDatabase")
@@ -15,6 +16,9 @@ app = Flask(__name__) #create app variable and make instance of Flask class
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Squadventurers.db'
 #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #db = SQLAlchemy(app)
+
+app.secret_key = "wtf kind of secret key is this"
+app.config['SESSION_TYPE'] = 'filesystem'
 
 with open("config") as f:
     app.config['MYSQL_HOST'] = f.readline().strip('\n')#'localhost'
@@ -114,7 +118,7 @@ def checkLogin():
         b = Bcrypt()
         # userpass = b.generate_password_hash(userpass)
         cursor = db.connection.cursor()
-        cursor.execute("SELECT PaidUp,PassPhrase FROM People WHERE UserName=%s", (user,))
+        cursor.execute("SELECT PaidUp,PassPhrase FROM People WHERE lower(UserName)=%s", (user.lower(),))
         
         results = cursor.fetchall()
         cursor.close()
@@ -165,7 +169,7 @@ def createUser():
         cursor = db.connection.cursor()
 
         # check for duplicate
-        cursor.execute("SELECT * FROM People WHERE UserName=%s OR (FirstName=%s AND LastName=%s)", (user,fname,lname,))
+        cursor.execute("SELECT * FROM People WHERE lower(UserName)=%s OR (FirstName=%s AND LastName=%s)", (user.lower(),fname,lname,))
         if cursor.rowcount > 0:
             return render_template("register.html", problem="exists")
 
@@ -195,7 +199,7 @@ def read(pageNum, chapterNum):
         # go to that page if they've defaulted to page 1
         if session.get('page') is not None and pageNum is not None:
             if session.get('page') > 2 and int(pageNum) == 1: # >2 so that we can go back to page 1
-                return read(session.get('page'), session.get('chapter')) # pass 0 chapter to just go to page directly
+                return read(session.get('page'),0)# session.get('chapter')) # pass 0 chapter to just go to page directly
 
         # if they navigated to a chapter and stopped
         # if session.get('chapter') is not None and session.get('page') is None:
@@ -229,6 +233,7 @@ def read(pageNum, chapterNum):
         chapterNum = int(chapterNum)
         for page in j:
             if int(page["chapterNum"]) == chapterNum:
+                session['page'] = int(page["absoluteCount"])
                 thisPage["absoluteCount"] = int(page["absoluteCount"])
                 thisPage["pageText"] = page["pageText"]
                 thisPage["chapterNum"] = int(page["chapterNum"])
@@ -304,6 +309,5 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 if __name__ == "__main__":
-    app.secret_key = "wtf kind of secret key is this"
     # if hosting on pythonanywhere, comment the app.run line
     app.run(debug=True, host="0.0.0.0", port=8080)
