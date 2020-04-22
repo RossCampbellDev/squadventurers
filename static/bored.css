@@ -80,7 +80,7 @@ p {
 
 #new-user {
 	position: fixed; left: 50%;
-	bottom: 40px; width: 500px; margin-left: -850px;
+	top: 280px; width: 500px; margin-left: -850px;
 	z-index: 11; font-family: 'Vibur',cursive;
 	font-size: 100px; color: #66AA77;
 }
