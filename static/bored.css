@@ -73,9 +73,16 @@ p {
 }
 
 #go-button {
-	margin: 0 auto; margin-left: 200px; margin-right: 200px; margin-top: 30px;
+	margin-top: 30px;
 	width: 200px; height: 44px; font-size: 32px; font-weight: bold;
-       	color: #222; font-family: 'Vibur', cursive;
+       	color: #222; font-family: 'Vibur',cursive;
+}
+
+#new-user {
+	position: fixed; left: 50%;
+	bottom: 40px; width: 500px; margin-left: -850px;
+	z-index: 11; font-family: 'Vibur',cursive;
+	font-size: 100px; color: #66AA77;
 }
 
 #home-title {

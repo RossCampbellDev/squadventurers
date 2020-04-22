@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Squadventurers</title>
+	<link rel="stylesheet" href="/static/bored.css">
+	<script type="text/javascript">
+		function checkData() {
+			var success = true;
+
+			var f1 = document.getElementById("f1");
+			var fname = f1.elements["fname"];
+			var lname = f1.elements["lname"];
+			var user = f1.elements["user"];
+			var userpass = f1.elements["userpass"];
+			var paidup = f1.elements["paidup"];
+			var msg=""; 
+
+			if (fname.value.length == 0 || fname.value.length > 50){
+				success = false; msg=msg+"sort your first name out!\n";
+			}
+
+			if (lname.value.length == 0 || lname.value.length > 50){
+				success = false; msg=msg+"you do have a last name don't you?\n";
+			}
+
+			if (user.value.length == 0 || user.value.length > 50){
+				success = false; msg=msg+"enter a sensible username you chump\n";
+			}
+
+			if (userpass.value.length == 0 || userpass.value.length > 50){
+				success = false; msg=msg+"what kind of password was that?\n";
+			}
+
+			if (paidup.checked == false) {
+				success = false; msg=msg+"don't you think you should give Ross money?";
+			}
+
+			if (success == true) {
+				f1.submit();
+			} else {
+				alert(msg);
+			}
+		}
+	</script>
+</head>
+
+<body style="background-color:#333;">
+
+	<div id="home-title">
+		<div> 
+			<div id="home-title-top">SQUADVENTURERS</div>
+			<div id="home-title-top" style="transform: scale(0.4); margin-top: 16px; margin-left: 10px;">Hey New Guy!:</div>
+		</div>
+	</div>
+	<div id="home-div">
+		{% if problem == "exists" %}
+			<div id="new-user" style="color: #BB4433;">There was a problem adding you.  IDIOT.</div>
+		{% endif %}
+
+		<div id="login-box">
+			<form id="f1" action="{{ url_for('createUser') }}" method="post">
+				<div class="login-label">First Name:</div>
+				<input class="login-input" name=fname type=text />
+
+				<div class="login-label">Last Name:</div>
+				<input class="login-input" name=lname type=text />
+
+				<div class="login-label">User Name:</div>
+				<input class="login-input" name=user type=text />
+
+				<div class="login-label">Password:</div>
+				<input class="login-input" name=userpass type=password />
+
+				<div class="login-label">Have you paid Ross some money?:</div>
+				<input class="login-input" name=paidup type=checkbox />
+			</form>
+
+			<div style="width:100%; text-align: center;"><input type=submit id="go-button" value="Go!" onClick=checkData() /></div>
+		</div>
+	</div>
+</body>
+</html>

@@ -16,6 +16,7 @@
 </head>
 
 <body style="background-color:#333;">
+
 	<div id="home-title">
 		<div> 
 			<div id="home-title-top">SQUADVENTURERS</div>
@@ -23,14 +24,19 @@
 		</div>
 	</div>
 	<div id="home-div">
+		{% if newName != "" %}
+			<div id="new-user">Success, we added you: {{ newName }}!</div>
+		{% endif %}
+
 		<div id="login-box">
 			<form action="{{ url_for('home') }}" method="post">
 				<div class="login-label">User Name:</div>
 				<input class="login-input" name=user type=text />
 				<div class="login-label">Password:</div>
 				<input class="login-input" name=userpass type=password />
-				<input type=submit id="go-button" value="Go!" />
+				<div style="width:100%; text-align: center;"><input type=submit id="go-button" value="Go!" /></div>
 			</form>
+			<div style="margin-top: 24px; text-align: center;"><a href="/createUser" style="color: #feffd6; text-decoration: underline;">Create Account</a></div>
 		</div>
 	</div>
 	<div id="cpright">Unpublished work &copy; 2020 Ross Campbell All Rights Reserved</div>

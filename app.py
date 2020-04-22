@@ -10,16 +10,18 @@ import random
 import pymysql
 #from flask_mysqldb import MySQl
 
-db = pymysql.connect("localhost", "gandalf", "300LivesOfMen!", "BookDatabase")
+#db = pymysql.connect("localhost", "gandalf", "300LivesOfMen!", "BookDatabase")
 app = Flask(__name__) #create app variable and make instance of Flask class
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Squadventurers.db'
 #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #db = SQLAlchemy(app)
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'gandalf'
-app.config['MYSQL_PASSWORD'] = '300LivesOfMen!'
-app.config['MYSQL_DB'] = 'BookDatabase'
+with open("config") as f:
+    app.config['MYSQL_HOST'] = f.readline().strip('\n')#'localhost'
+    app.config['MYSQL_USER'] = f.readline().strip('\n')#'gandalf'
+    app.config['MYSQL_PASSWORD'] = f.readline().strip('\n')#'300LivesOfMen!'
+    app.config['MYSQL_DB'] = f.readline().strip('\n')#'BookDatabase'
+
 db = MySQL(app)
 
 # set up login test vars
@@ -136,8 +138,42 @@ def home():
     if session.get('logged-in'):
         return render_template('index.html')
 
-    return render_template('login.html')
+    return render_template('login.html', newName="")
 
+
+@app.route("/createUser")
+@app.route("/createUser", methods=['POST'])
+def createUser():
+    if request.method == "POST":
+        fname = request.form['fname']
+        lname = request.form['lname']
+        user = request.form['user']
+        userpass = request.form['userpass'].encode('utf-8')
+        paidup = request.form['paidup']
+        if paidup == "on":
+            paidup = 1
+        else:
+            paidup = 0
+
+        # hash the pw
+        b = Bcrypt()
+        userpass = b.generate_password_hash(userpass)
+
+        cursor = db.connection.cursor()
+
+        # check for duplicate
+        cursor.execute("SELECT * FROM People WHERE UserName=%s OR (FirstName=%s AND LastName=%s)", (user,fname,lname,))
+        if cursor.rowcount > 0:
+            return render_template("register.html", problem="exists")
+
+        # if no duplicate, insert
+        cursor.execute("INSERT INTO People (FirstName,LastName,UserName,PassPhrase,PaidUp) VALUES (%s, %s, %s, %s, %s)", (fname,lname,user,userpass,paidup,))
+
+        db.connection.commit()
+        return render_template("login.html", newName=user)
+
+    # default action, and for before post
+    return render_template("register.html")
 
 @app.route("/<pageNum>", defaults={"chapterNum":"None"})
 @app.route("/<pageNum>/<chapterNum>")
