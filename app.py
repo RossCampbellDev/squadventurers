@@ -124,6 +124,8 @@ def checkLogin():
             if b.check_password_hash(results[0][1].encode('utf-8'), userpass):
                 paidup = results[0][0]
                 session['logged-in'] = True
+                session.permanent = True
+                app.permanent_session_lifetime = timedelta(days=1)
             else:
                 session['logged-in'] = False
 
@@ -148,6 +150,7 @@ def createUser():
         fname = request.form['fname']
         lname = request.form['lname']
         user = request.form['user']
+        email = request.form['email']
         userpass = request.form['userpass'].encode('utf-8')
         paidup = request.form['paidup']
         if paidup == "on":
@@ -167,7 +170,7 @@ def createUser():
             return render_template("register.html", problem="exists")
 
         # if no duplicate, insert
-        cursor.execute("INSERT INTO People (FirstName,LastName,UserName,PassPhrase,PaidUp) VALUES (%s, %s, %s, %s, %s)", (fname,lname,user,userpass,paidup,))
+        cursor.execute("INSERT INTO People (FirstName,LastName,UserName,Email,PassPhrase,PaidUp) VALUES (%s, %s, %s, %s, %s, %s)", (fname,lname,user,email,userpass,paidup,))
 
         db.connection.commit()
         return render_template("login.html", newName=user)
@@ -180,6 +183,30 @@ def createUser():
 def read(pageNum, chapterNum):
     if not session.get('logged-in'):
         return home()
+    else:
+        # default the values if new session
+        if session.get('page') is None:
+            session['page'] = 1
+
+        if session.get('chapter') is None:
+            session['chapter'] = 1
+
+        # if they are logged in and there IS session data for the page number,
+        # go to that page if they've defaulted to page 1
+        if session.get('page') is not None and pageNum is not None:
+            if session.get('page') > 2 and int(pageNum) == 1: # >2 so that we can go back to page 1
+                return read(session.get('page'), session.get('chapter')) # pass 0 chapter to just go to page directly
+
+        # if they navigated to a chapter and stopped
+        # if session.get('chapter') is not None and session.get('page') is None:
+            # return read(0, session.get('chapter'))
+
+        # update the session to show what page they're on
+        if pageNum != "None":
+            session['page'] = int(pageNum)
+
+        if chapterNum != "None":
+            session['chapter'] = int(chapterNum)
 
     # set up the page (book text and chapter etc
     thisPage={}

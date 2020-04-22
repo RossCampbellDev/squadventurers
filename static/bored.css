@@ -75,7 +75,7 @@ p {
 #go-button {
 	margin-top: 30px;
 	width: 200px; height: 44px; font-size: 32px; font-weight: bold;
-       	color: #222; font-family: 'Vibur',cursive;
+       	color: #222; font-family: 'courgette',cursive;
 }
 
 #new-user {
@@ -120,7 +120,7 @@ p {
 #home-div {
 	margin: auto;
 	width: 100%; min-height: auto; margin-top:10px;
-	top: 0; bottom: 0; right: 0;
+	top: 0; bottom: 0; right: 0; padding-bottom: 20px;
 }
 
 .home-nav {
@@ -137,7 +137,7 @@ p {
 
 
 .login-label {
-	text-align: center; color: #999;
+	text-align: center; color: #FEFFD6;
 	font-family: 'Courgette', cursive;
 	font-size: 40px; font-weight: bold;
 	padding: 10px;

@@ -14,7 +14,8 @@
 			var user = f1.elements["user"];
 			var userpass = f1.elements["userpass"];
 			var paidup = f1.elements["paidup"];
-			var msg=""; 
+			var msg="";
+			var regex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}/g;
 
 			if (fname.value.length == 0 || fname.value.length > 50){
 				success = false; msg=msg+"sort your first name out!\n";
@@ -26,6 +27,12 @@
 
 			if (user.value.length == 0 || user.value.length > 50){
 				success = false; msg=msg+"enter a sensible username you chump\n";
+			}
+
+			if (email.value.length == 0 || email.value.length > 50){
+				success = false; msg=msg+"enter a sensible username you chump\n";
+			} else if(!email.match(regex)) {
+				success = false; msg=msg+"your email address must have been written by an ape\n";
 			}
 
 			if (userpass.value.length == 0 || userpass.value.length > 50){
@@ -42,6 +49,13 @@
 				alert(msg);
 			}
 		}
+
+		function cancel() {
+			var c = confirm("You sure you want to cancel?");
+			if (c == true) {
+				window.location.href="{{ url_for('home') }}";
+			}
+		}
 	</script>
 </head>
 
@@ -50,7 +64,7 @@
 	<div id="home-title">
 		<div> 
 			<div id="home-title-top">SQUADVENTURERS</div>
-			<div id="home-title-top" style="transform: scale(0.4); margin-top: 16px; margin-left: 10px;">Hey New Guy!:</div>
+			<div id="home-title-top" style="color: #CCEEFF; transform: scale(0.4); margin-top: 16px; margin-left: 10px;">Hey New Guy!</div>
 		</div>
 	</div>
 	<div id="home-div">
@@ -61,13 +75,16 @@
 		<div id="login-box">
 			<form id="f1" action="{{ url_for('createUser') }}" method="post">
 				<div class="login-label">First Name:</div>
-				<input class="login-input" name=fname type=text />
+				<input class="login-input" name=fname type=text placeholder="Samwise" />
 
 				<div class="login-label">Last Name:</div>
-				<input class="login-input" name=lname type=text />
+				<input class="login-input" name=lname type=text placeholder="Gamgee" />
 
 				<div class="login-label">User Name:</div>
-				<input class="login-input" name=user type=text />
+				<input class="login-input" name=user type=text placeholder="RealHero9" />
+
+				<div class="login-label">e-Mail:</div>
+				<input class="login-input" name=email type=text placeholder="lembasfan@crumbs.com" />
 
 				<div class="login-label">Password:</div>
 				<input class="login-input" name=userpass type=password />
@@ -76,7 +93,10 @@
 				<input class="login-input" name=paidup type=checkbox />
 			</form>
 
-			<div style="width:100%; text-align: center;"><input type=submit id="go-button" value="Go!" onClick=checkData() /></div>
+			<div style="width:100%; text-align: center;">
+				<input type=submit id="go-button" style="color: #AA2222;" value="Cancel" onClick=cancel() />
+				<input type=submit id="go-button" value="Go!" onClick=checkData() />
+			</div>
 		</div>
 	</div>
 </body>
