@@ -68,32 +68,30 @@
 			<div id="home-title-top" style="color: #CCEEFF; transform: scale(0.4); margin-top: 16px; margin-left: 10px;">Hey New Guy!</div>
 		</div>
 	</div>
-	
-	{% if problem == "exists" %}
-		<div id="new-user" style="color: #BB4433;">There was a problem adding you.  IDIOT.</div>
-	{% endif %}
-
 	<div id="home-div">
+		{% if problem == "exists" %}
+			<div id="new-user" style="color: #BB4433;">There was a problem adding you.  IDIOT.</div>
+		{% endif %}
 
 		<div id="login-box">
 			<form id="f1" action="{{ url_for('createUser') }}" method="post">
-				<div class="login-label">First Name:</div>
-				<input class="login-input" name=fname type=text placeholder="Samwise" />
+				<div class="register-label">First Name:</div>
+				<input class="register-input" name=fname type=text placeholder="Samwise" />
 
-				<div class="login-label">Last Name:</div>
-				<input class="login-input" name=lname type=text placeholder="Gamgee" />
+				<div class="register-label">Last Name:</div>
+				<input class="register-input" name=lname type=text placeholder="Gamgee" />
 
-				<div class="login-label">User Name:</div>
-				<input class="login-input" name=user type=text placeholder="RealHero9" />
+				<div class="register-label">User Name:</div>
+				<input class="register-input" name=user type=text placeholder="RealHero9" />
 
-				<div class="login-label">E-mail:</div>
-				<input class="login-input" name=email type=email placeholder="lembasfan@crumbs.com" />
+				<div class="register-label">e-Mail:</div>
+				<input class="register-input" name=email type=text placeholder="lembasfan@crumbs.com" />
 
-				<div class="login-label">Password:</div>
-				<input class="login-input" name=userpass type=password />
+				<div class="register-label">Password:</div>
+				<input class="register-input" name=userpass type=password />
 
-				<div class="login-label">Have you paid Ross some money?:</div>
-				<input class="login-input" name=paidup type=checkbox />
+				<div class="register-label">Have you paid Ross some money?:</div>
+				<input class="register-input" name=paidup type=checkbox />
 			</form>
 
 			<div style="width:100%; text-align: center;">

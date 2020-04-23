@@ -1,5 +1,5 @@
 #!/usr/bin/python3.6
-from flask import Flask, render_template, send_from_directory, request, session
+from flask import Flask, render_template, send_from_directory, request, session, redirect
 # from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_mysqldb import MySQL
@@ -106,6 +106,9 @@ def checkIP():
 @app.route("/logout")
 def logout():
     session['logged-in'] = False
+    session.pop('logged-in')
+    session['free'] = False
+    session.pop('free')
     app.secret_key = os.urandom(12)
     return home()
 
@@ -196,34 +199,43 @@ def createUser():
 @app.route("/<pageNum>/<chapterNum>/<bookNum>")
 def read(pageNum, chapterNum, bookNum):
     if not session.get('logged-in'):
-        return home()
-    else:
-        # default the values if new session
-        if session.get('bookNum') is None:
-            session['book'] = int(bookNum) # should always be 1 or a selected value
+        if not session.get('free'): # if not on free read, then log out
+            return home()
+       
+    # if it's a free read then don't allow past chapter 3
+    if session.get('free'):
+        try:
+            if int(pageNum) > 29 or int(chapterNum) > 3:
+                return home()
+        except ValueError:
+            print()
 
-        if session.get('page') is None:
-            session['page'] = 1
+    # default the values if new session
+    if session.get('bookNum') is None:
+        session['book'] = int(bookNum) # should always be 1 or a selected value
 
-        if session.get('chapter') is None:
-            session['chapter'] = 1
+    if session.get('page') is None:
+        session['page'] = 1
 
-        # if they are logged in and there IS session data for the page number,
-        # go to that page if they've defaulted to page 1
-        if session.get('page') is not None and pageNum is not None:
-            if session.get('page') > 2 and int(pageNum) == 1: # >2 so that we can go back to page 1
-                return read(session.get('page'),0,bookNum)# session.get('chapter')) # pass 0 chapter to just go to page directly
+    if session.get('chapter') is None:
+        session['chapter'] = 1
 
-        # if they navigated to a chapter and stopped
-        # if session.get('chapter') is not None and session.get('page') is None:
-            # return read(0, session.get('chapter'))
+    # if they are logged in and there IS session data for the page number,
+    # go to that page if they've defaulted to page 1
+    if session.get('page') is not None and pageNum is not None:
+        if session.get('page') > 2 and int(pageNum) == 1: # >2 so that we can go back to page 1
+            return read(session.get('page'),0,bookNum)# session.get('chapter')) # pass 0 chapter to just go to page directly
 
-        # update the session to show what page they're on
-        if pageNum != "None":
-            session['page'] = int(pageNum)
+    # if they navigated to a chapter and stopped
+    # if session.get('chapter') is not None and session.get('page') is None:
+        # return read(0, session.get('chapter'))
 
-        if chapterNum != "None":
-            session['chapter'] = int(chapterNum)
+    # update the session to show what page they're on
+    if pageNum != "None":
+        session['page'] = int(pageNum)
+
+    if chapterNum != "None":
+        session['chapter'] = int(chapterNum)
 
     # set up the page (book text and chapter etc
     thisPage={}
@@ -323,9 +335,14 @@ def bio(nameIn):
 
     return ""
 
+@app.route('/freeRead')
+def freeRead():
+    session['free'] = True
+    return redirect("/1", code=302)
+
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico',mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(os.path.join(app.root_path, 'static'),'favicon2.ico',mimetype='image/vnd.microsoft.icon')
 
 if __name__ == "__main__":
     # if hosting on pythonanywhere, comment the app.run line
