@@ -24,7 +24,7 @@ def getChapters(fileIn, fileOut):
             f.write(c)
 
     f.close()
-    print("Done!")
+    print("Complete! -> %s" % fileOut)
 
 
 def main(args):

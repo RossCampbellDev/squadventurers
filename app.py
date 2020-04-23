@@ -6,6 +6,7 @@ from flask_mysqldb import MySQL
 import flask_login
 import json
 import os
+from os import path
 import random
 from datetime import timedelta
 #import pymysql
@@ -42,15 +43,23 @@ characters = []
 places = []
 
 def setupNavInfo():
+    if session.get('book') is None:
+        session['book'] = 1
+
     # get the navigation pane data
     count = 0
-    with open("snakes/chapters") as f:
-        count = 0
-        fl = f.readlines()
-        for l in fl:
-            if len(l) > 0:
-                count = count + 1
-                contents.append("%d.  %s" % (count, capitalise(l)))
+    fname = "snakes/chapters_" + str(session.get('book')) + ".txt"
+    if path.exists(fname):
+        with open(fname) as f:
+            print("hey")
+            count = 0
+            fl = f.readlines()
+            for l in fl:
+                if len(l) > 0:
+                    count = count + 1
+                    contents.append("%d.  %s" % (count, capitalise(l)))
+    else:
+        return home()
 
     with open("snakes/characters") as f:
         count = 0
@@ -68,8 +77,6 @@ def setupNavInfo():
                 count = count+ 1
                 places.append("%s" % l)
 
-
-setupNavInfo()
 
 def checkIP():
     # check for new unique visitor
@@ -140,6 +147,8 @@ def checkLogin():
 @app.route("/index")
 @app.route("/home")
 def home():
+    if len(contents) == 0:
+        setupNavInfo()
     # check login and then render template
     if session.get('logged-in'):
         return render_template('index.html')
@@ -182,13 +191,17 @@ def createUser():
     # default action, and for before post
     return render_template("register.html")
 
-@app.route("/<pageNum>", defaults={"chapterNum":"None"})
-@app.route("/<pageNum>/<chapterNum>")
-def read(pageNum, chapterNum):
+@app.route("/<pageNum>", defaults={"chapterNum":"None", "bookNum":"1"})
+@app.route("/<pageNum>/<chapterNum>", defaults={"bookNum":"1"})
+@app.route("/<pageNum>/<chapterNum>/<bookNum>")
+def read(pageNum, chapterNum, bookNum):
     if not session.get('logged-in'):
         return home()
     else:
         # default the values if new session
+        if session.get('bookNum') is None:
+            session['book'] = int(bookNum) # should always be 1 or a selected value
+
         if session.get('page') is None:
             session['page'] = 1
 
@@ -199,7 +212,7 @@ def read(pageNum, chapterNum):
         # go to that page if they've defaulted to page 1
         if session.get('page') is not None and pageNum is not None:
             if session.get('page') > 2 and int(pageNum) == 1: # >2 so that we can go back to page 1
-                return read(session.get('page'),0)# session.get('chapter')) # pass 0 chapter to just go to page directly
+                return read(session.get('page'),0,bookNum)# session.get('chapter')) # pass 0 chapter to just go to page directly
 
         # if they navigated to a chapter and stopped
         # if session.get('chapter') is not None and session.get('page') is None:
@@ -219,8 +232,12 @@ def read(pageNum, chapterNum):
         pageNum = 1
 
     # load the pre-generated JSON data into a JSON dictionary
-    with open("chapters/AllPages") as f:
-        j = json.load(f)
+    fname = "books/augmented/" + str(bookNum) + ".txt"
+    if path.exists(fname):
+        with open(fname) as f:
+            j = json.load(f)
+    else:
+        return home()
 
     pageNum = int(pageNum)
 
@@ -249,6 +266,8 @@ def read(pageNum, chapterNum):
             return render_template("read.html", thisPage=thisPage, contents=contents, characters=characters, places=places)
 
     # if we're not looking for a specific page or chapter, go to the index
+    session['page'] = 1
+    session['chapter'] = 1
     return render_template("index.html")
 
 

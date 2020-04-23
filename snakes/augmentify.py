@@ -22,7 +22,7 @@ def augmentifyThis(fileIn, dictionary, plaintextify):
     newdata = f.replace("  ","&nbsp;&nbsp;")
     newdata = newdata.replace("iii","<i>")
     newdata = newdata.replace("jjj","</i>")
-    newdata = newdata.replace("*","<p style=\\\"text-align:center;color:#000;\\\">*</p>")
+    newdata = newdata.replace("*","<p style=\\\"text-align:center;color:#000; margin-top: 4px;\\\">*</p>")
 
     for k,v in replacementDict.items():
         mask = r'\b%s\b' % k
@@ -104,10 +104,10 @@ def main(args):
     else:
         #if os.path.isfile(fileOut):
         f = open(fileOut, "w+")
-        print("output to file: %s" % fileOut)
+        print("Complete! -> %s" % fileOut)
         #else:
             #f = open("augmentified_text", "w+")
-            #print("output to file: augmentified_text")
+            #print("Complete! -> augmentified_text")
     
         f.write(result)
         f.close()
