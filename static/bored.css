@@ -256,6 +256,13 @@ p {
 	height:400px; max-width:100%; overflow:hidden;
 }
 
+.char-sub-header {
+	width: auto; margin:1%; margin-top: 16px; margin-bottom: 6px;
+	border-bottom: 1px solid #333; color: #333;
+	font-size: 20px; font-weight: bold; padding-bottom: 6px; padding-left: 10px;
+	overflow:auto;
+}
+
 .next {
 	color:#666; font-style:italic;
 }
