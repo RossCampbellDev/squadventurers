@@ -288,7 +288,7 @@ def read(pageNum, chapterNum, bookNum):
 @app.route("/bio", defaults={"nameIn":"None"})
 @app.route("/bio/<nameIn>")
 def bio(nameIn):
-    if not session.get('logged-in'):
+    if not session.get('logged-in') and not session.get('free') :
         return home()
 
     bios=[]
