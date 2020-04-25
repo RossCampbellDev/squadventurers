@@ -8,6 +8,7 @@ import json
 import os
 from os import path
 import random
+import datetime
 from datetime import timedelta
 #import pymysql
 #from flask_mysqldb import MySQl
@@ -20,6 +21,7 @@ app = Flask(__name__) #create app variable and make instance of Flask class
 
 app.secret_key = "wtf kind of secret key is this"
 app.config['SESSION_TYPE'] = 'filesystem'
+# app.config['SERVER_NAME'] = "squadventurers.co.uk"
 
 with open("config") as f:
     app.config['MYSQL_HOST'] = f.readline().strip('\n')#'localhost'
@@ -91,14 +93,14 @@ def checkIP():
         fl = f.readlines()
         for l in fl:
             count = count + 1
-            if l.replace("\n","") == IP:
+            if l.split(",")[0].replace("\n","") == IP:
                 unique = False
 
 
     if unique:
         f = open("visitors","a+")
         count = count + 1
-        f.write(IP + "\n")
+        f.write(IP + "," + str(datetime.datetime.now()) + "\n")
         f.close()
     # print("total unique visitors:\t%d" % count)
 

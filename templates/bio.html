@@ -24,7 +24,7 @@
 		</div>
 
 		<div class="char-image">
-			<img class="char-image-img" src="/static/images/{{ entity.name }}.png" />
+			<img class="char-image-img" src="/static/images/{{ entity.name }}.png" onerror="this.style.display='none';" />
 		</div>
 		{{ entity.description|safe }}
 	   </div>
