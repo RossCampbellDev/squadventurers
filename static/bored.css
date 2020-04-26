@@ -51,6 +51,10 @@ p {
 /*******************/
 /*   LAYOUT STUFF  */
 /*******************/
+#home-body {
+	height: 80%; margin-top: 7%;
+}
+
 #login-box {
 	width: 600px; margin: 0 auto;
 }
@@ -83,7 +87,7 @@ p {
 	width: 100%; height: 220px;
 	text-align: center;
 	padding-bottom: 16px;
-	border-bottom: 1px solid #feffd6;
+	/*border-bottom: 1px solid #feffd6;*/
 }
 
 #home-title-top {
@@ -185,7 +189,7 @@ p {
 }
 
 .title-top:hover {
-	text-shadow:6px 6px 6px #000; cursor: pointer;
+	text-shadow:6px 6px 6px #000; cursor: pointer; color:#cceeff;
 }
 
 .title-main {
