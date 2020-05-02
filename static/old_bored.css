@@ -131,7 +131,7 @@ p {
 
 
 .login-label {
-	text-align: center; color: #CCEEFF;/*color: #FEFFD6;*/
+	text-align: center; color: #FEFFD6;
 	font-family: 'Courgette', cursive;
 	font-size: 40px; font-weight: bold;
 	padding: 10px;
@@ -474,26 +474,24 @@ p {
 /*  MOBILE SCREEN   */
 /********************/
 /*@media only screen and (orientation:portrait){*/
-/*@media only screen and (max-device-width: 768px) {*/
-@media screen and (min-device-width: 0px) and (max-device-width: 768px) and (orientation:portrait) {
+@media only screen and (max-device-width: 768px) {
 	.title-box {
-		height:30px;
+		height:70px;
 	}
-
 	.title-top {
-		font-size:60px;
-		margin-top:-20px;
+		font-size:110px;
+		margin-top:-4px;
 		height:100%; width: 100%;
-		letter-spacing: 2px; margin-left: -10px;
+		letter-spacing: 6px;
 	}
 
 	.title-main {
 		height:auto;
-		font-size:28px;
+		font-size:34px;
 	}
 
 	.title-sub {
-		font-size:18px;
+		font-size:20px;
 		font-weight:bold;
 	}
 
@@ -502,8 +500,8 @@ p {
 	}
 
 	.content-text {
-		font-size:15px;
-		padding:4px;
+		font-size:17px;
+		padding:10px;
 	}
 
 	#lightImage {
@@ -526,6 +524,15 @@ p {
 		margin-left:85px;
 	}
 
+	.footer-box {
+		opacity: 1; height: 44px; transform: scale(1.8); transform-origin: bottom;
+	}
+
+	.navbar {
+		min-width:480px;
+		width: 480px;
+	}
+
 	#donate {
 	}
 
@@ -533,7 +540,7 @@ p {
 		max-width:100%; max-height:300px;
 		min-width:100%; min-height:140px;
 		float:none; display:inline-block; text-align:center; margin:0 auto;
-		box-shadow:none; margin-bottom:10px;
+		box-shadow:none; margin-bottom:20px;
 	}
 
 	.char-image-img {
@@ -541,31 +548,19 @@ p {
 	}
 
 	#logout-box {
-		transform: scale(0.8); transform-origin: top left;
-	}
-
-	.footer-box {
-		opacity: 1; height: 40px;
-	}
-
-	.navbar {
-		width: 100%;
-		transform: scale(0.9); transform-origin: top left;
+		transform: scale(2); transform-origin: top left;
 	}
 
 	.fancy-nav-box {
-		opacity: 1; min-width: 100%; width: 100%;
-		height: 60px; margin-bottom: 30px;
-		/*transform: scale(2); transform-origin: bottom;  margin-left: -275px; */
-		left: 0; margin: 0;
+		opacity: 1; width: 550px; margin-left: -275px; height: 60px; transform: scale(2); transform-origin: bottom; margin-bottom: 20px;
 	}
 
 	.fancy-nav-button {
-		font-size: 24px; width: 33%; height: 56px; margin: 0;
+		font-size: 24px; width: 178px; height: 56px; margin-bottom: 20px;
 	}
 
 	.fancy-nav-text {
-		margin-top: 16px; width: 100%;
+		margin-top: 16px;
 	}
 
 	.fancy-nav-button img {
@@ -574,48 +569,43 @@ p {
 	}
 
 	#show-info {
-		min-width: 100%; width: 100%; margin-bottom: 44px; max-height: 90%; left: 0; margin: 0;
-		overflow: auto; opacity: 1; /*transform: scale(2); transform-origin: bottom; margin-left: -240px; */
+		width: 480px; margin-left: -240px;  margin-bottom: 44px;
+		overflow: auto; opacity: 1; transform: scale(2); transform-origin: bottom;
 	}
 
 	.show-info-content {
-		width: auto;
+		width: 480px;
 		columns: 2;
 		webkit-columns: 2;
 		moz-columns: 2;
 	}
 
 	.show-info-row {
-		max-width: 48%
-		font-size: 14px !important; width: auto;
+		width: 480px;
+		font-size: 12px; width: auto;
 	}
 
-    #home-title {
-        height: auto;
-    }
-
 	#home-title-top {
-		font-size: 65px; letter-spacing: 1px;
-		margin-top: 10px; padding-top: 0px; line-height: normal;
+		font-size: 145px; letter-spacing: 6px;
 	}
 
 	#home-title-sub {
-		font-size: 18px;
+		font-size: 28px;
 	}
 
 	.home-nav {
-		font-size: 20px;
+		font-size: 32px;
 	}
 
 	#cpright {
-		bottom: 1px;
+		bottom: 10px;
 		height: 10px;
-		font-size: 8px;
+		font-size: 18px;
 		width: 100%; text-align: center;
 	}
 
 	.login-input {
-		width: 100%; height: 38px; font-size: 28px;
+		width: 100%; height: 80px; font-size: 74px;
 	}
 
 	#login-box {
@@ -623,19 +613,15 @@ p {
 	}
 
 	.login-label {
-		font-size: 28px;
+		font-size: 74px;
 	}
 
 	#go-button {
-		font-size: 34px; height: 40px; width: 50%; margin-top: 30px; line-height: 40px; padding-top: 0px;
+		font-size: 64px; height: 80px; width: 500px; margin-top: 60px;
 	}
 
-    .home-anchor-div {
-        margin-bottom: 20px; width: 100%;
-    }
-
 	.home-anchor {
-		font-size: 20px;
+		font-size: 34px;
 	}
 
 	#new-user {
