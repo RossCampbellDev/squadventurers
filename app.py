@@ -282,6 +282,7 @@ def read(pageNum, chapterNum, bookNum):
     # if we're not looking for a specific page or chapter, go to the index
     session['page'] = 1
     session['chapter'] = 1
+    return render_template("theend.html")
     return render_template("index.html")
 
 
