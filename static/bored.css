@@ -66,7 +66,7 @@ p {
 }
 
 #logout-box:hover {
-	border: 1px solid #660000;
+	border: 1px solid #feffd6;
 	border-radius: 5px; padding: 0px;
 }
 
@@ -139,9 +139,9 @@ p {
 	-moz-transform: translateY(40%);
 	-webkit-transform: translateY(40%);
 	transform: translateY(40%);
-	-moz-animation: scroll-up 20s linear infinite;
-	-webkit-animation: scroll-up 20s linear infinite;
-	animation: scroll-up 20s linear infinite;
+	-moz-animation: scroll-up 24s linear infinite;
+	-webkit-animation: scroll-up 24s linear infinite;
+	animation: scroll-up 24s linear infinite;
 }
 .credits-scroll:hover {
 	-webkit-animation-play-state: paused;
@@ -196,9 +196,10 @@ p {
 
 
 .login-input {
-	width: 100%; height: 40px; font-size: 30px;
-	text-align: center;
-	background-color:#feffd4;
+	width: 100%; height: 60px; font-size: 45px; margin-top: 30px; margin-bottom: 30px;
+	text-align: center; border: 0; border-bottom: 1px solid #CCEEFF;
+	background-color: transparent; /*#feffd4;*/
+	color: #feffd6;
 }
 
 .register-input {
@@ -693,9 +694,9 @@ p {
 		font-size: 34px; height: 40px; width: 50%; margin-top: 30px; line-height: 40px; padding-top: 0px;
 	}
 
-    .home-anchor-div {
-        margin-bottom: 20px; width: 100%;
-    }
+	.home-anchor-div {
+		margin-bottom: 20px; width: 100%;
+	}
 
 	.home-anchor {
 		font-size: 20px;
@@ -707,6 +708,10 @@ p {
 		padding-top: 10px; padding-bottom: 10px;
 		color: #22DD22; font-family: 'Arial'; top: none;
 		bottom: 4px; text-align: center; left: 0; background-color: #222;
+	}
+
+	#credits-div {
+		width: 300px; font-size: 24px; margin-top: -100px;
 	}
 }
 
