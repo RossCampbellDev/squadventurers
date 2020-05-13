@@ -196,8 +196,8 @@ def createUser():
     # default action, and for before post
     return render_template("register.html")
 
-@app.route("/<pageNum>", defaults={"chapterNum":"None", "bookNum":"1"})
-@app.route("/<pageNum>/<chapterNum>", defaults={"bookNum":"1"})
+@app.route("/<pageNum>", defaults={"chapterNum":"None", "bookNum":"None"})
+@app.route("/<pageNum>/<chapterNum>", defaults={"bookNum":"None"})
 @app.route("/<pageNum>/<chapterNum>/<bookNum>")
 def read(pageNum, chapterNum, bookNum):
     if not session.get('logged-in'):
@@ -213,8 +213,13 @@ def read(pageNum, chapterNum, bookNum):
             print()
 
     # default the values if new session
-    if session.get('bookNum') is None:
-        session['book'] = int(bookNum) # should always be 1 or a selected value
+    if bookNum == "None":
+        if session.get('book') is None:
+            bookNum=1
+        else:
+            bookNum=session.get('book')
+        
+    session['book'] = int(bookNum) # should always be 1 or a selected value
 
     if session.get('page') is None:
         session['page'] = 1
@@ -245,6 +250,7 @@ def read(pageNum, chapterNum, bookNum):
     if pageNum == "None":
         pageNum = 1
 
+    print('book: %s' % str(bookNum))
     # load the pre-generated JSON data into a JSON dictionary
     fname = "books/augmented/" + str(bookNum) + ".txt"
     if path.exists(fname):

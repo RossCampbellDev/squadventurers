@@ -13,7 +13,7 @@ def augmentifyThis(fileIn, dictionary, plaintextify):
     # iterate over the dictionary file to grab all pairs of words and their replacements
     # strip newline chars
     for line in dictionary:
-        lineSplit = line.split(",")
+        lineSplit = line.split(",,")
         replacementDict[lineSplit[0]] = lineSplit[1].rstrip()
 
     # iterate over each dictionary pair and replace all instances in the input file
@@ -26,7 +26,6 @@ def augmentifyThis(fileIn, dictionary, plaintextify):
 
     for k,v in replacementDict.items():
         mask = r'\b%s\b' % k
-
         new = v
 
         if plaintextify:

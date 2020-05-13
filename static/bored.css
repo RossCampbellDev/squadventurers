@@ -51,6 +51,13 @@ p {
 /*******************/
 /*   LAYOUT STUFF  */
 /*******************/
+#hint {
+	position: absolute; display: none; margin-top: -20px; margin-left: 15px;
+	width: auto; height: auto; max-width: 250px; min-height: 16px;
+	font-size: 17px; color: #feffd6; background-color: #8B3828;
+	border-radius: 10px; padding: 8px; text-align: center; padding-left: 8px; padding-right: 8px;
+}
+
 #home-body {
 	height: 80%; margin-top: 7%;
 }
