@@ -11,6 +11,10 @@
 <body onload="start()">
 	{% set cn = thisPage.chapterNum %}
 	{% set pn = thisPage.absoluteCount %}
+	
+	{% if free == True %}
+		<div id=free-box>30 pages free!</div>
+	{% endif %}
 
 	<div id="hint"></div>
 

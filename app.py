@@ -200,12 +200,15 @@ def createUser():
 @app.route("/<pageNum>/<chapterNum>", defaults={"bookNum":"None"})
 @app.route("/<pageNum>/<chapterNum>/<bookNum>")
 def read(pageNum, chapterNum, bookNum):
+    freeRead = False
+
     if not session.get('logged-in'):
         if not session.get('free'): # if not on free read, then log out
             return home()
        
     # if it's a free read then don't allow past chapter 3
     if session.get('free'):
+        freeRead = True
         try:
             if int(pageNum) > 29 or int(chapterNum) > 3:
                 return home()
@@ -274,7 +277,7 @@ def read(pageNum, chapterNum, bookNum):
                 thisPage["absoluteCount"] = int(page["absoluteCount"])
                 thisPage["pageText"] = page["pageText"]
                 thisPage["chapterNum"] = int(page["chapterNum"])
-                return render_template("read.html", thisPage=thisPage, contents=contents, characters=characters, places=places)
+                return render_template("read.html", thisPage=thisPage, contents=contents, characters=characters, places=places, free=freeRead)
 
 
     # look for the searched-for page within the JSON data
@@ -283,7 +286,7 @@ def read(pageNum, chapterNum, bookNum):
             thisPage["absoluteCount"] = int(page["absoluteCount"])
             thisPage["pageText"] = page["pageText"]
             thisPage["chapterNum"] = int(page["chapterNum"])
-            return render_template("read.html", thisPage=thisPage, contents=contents, characters=characters, places=places)
+            return render_template("read.html", thisPage=thisPage, contents=contents, characters=characters, places=places, free=freeRead)
 
     # if we're not looking for a specific page or chapter, go to the index
     session['page'] = 1
