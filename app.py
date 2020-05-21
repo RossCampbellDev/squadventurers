@@ -44,6 +44,28 @@ contents = []
 characters = []
 places = []
 
+def updateChapters():
+    contents = []
+    if session.get('book') is None:
+        session['book'] = 1
+
+    print("update b: %d" % (int(session.get('book'))))
+
+    # get the navigation pane data
+    count = 0
+    fname = "snakes/chapters_" + str(session.get('book')) + ".txt"
+    if path.exists(fname):
+        with open(fname) as f:
+            count = 0
+            fl = f.readlines()
+            for l in fl:
+                if len(l) > 0:
+                    count = count + 1
+                    contents.append("%d.  %s" % (count, capitalise(l)))
+    else:
+        return home()
+
+
 def setupNavInfo():
     if session.get('book') is None:
         session['book'] = 1
@@ -218,11 +240,22 @@ def read(pageNum, chapterNum, bookNum):
     # default the values if new session
     if bookNum == "None":
         if session.get('book') is None:
+            print("no sesh") 
             bookNum=1
+            session['book'] = int(bookNum) # should always be 1 or a selected value
         else:
+            print("yes sesh")
             bookNum=session.get('book')
-        
-    session['book'] = int(bookNum) # should always be 1 or a selected value
+            session['book'] = int(bookNum) # should always be 1 or a selected value
+            updateChapters()
+    else:
+        if session.get('book') is not None:
+            print('yes bookNum, yes sesh')
+            if bookNum != session.get('book'):
+                session['book'] = int(bookNum)
+                session['page'] = 1
+                session['chapter'] = 1
+                updateChapters()
 
     if session.get('page') is None:
         session['page'] = 1
