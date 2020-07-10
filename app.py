@@ -258,6 +258,10 @@ def createUser():
 @app.route("/buy/<bookNum>" )
 @app.route("/buy/<bookNum>", methods=['POST'])
 def buy(bookNum):
+    # check login first otherwise they can't buy
+    if session.get('logged-in') == None:
+        return home()
+
     if bookNum == None:
         return home()
 
