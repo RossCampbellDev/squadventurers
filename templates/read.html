@@ -13,7 +13,10 @@
 	{% set pn = thisPage.absoluteCount %}
 	
 	{% if free == True %}
-		<div id=free-box>30 pages free!</div>
+		<div id=free-box>
+			Buy the full book<br/>
+			<img src="/static/images/purchase.png" width=70 id=purchase-img onclick=buy({{ bNum }}) />
+		</div>
 	{% endif %}
 
 	<div id="hint"></div>

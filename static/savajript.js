@@ -128,7 +128,8 @@ function show(s) {
 			break;
 		case "Places":
 			chars.style.display = "none";
-		       places.style.display = "block";
+			contents.style.display = "none";
+		       	places.style.display = "block";
 			break;
 		default:
 			c.style.bottom = (0-h) + "px";
@@ -172,4 +173,7 @@ function showHint(e, name) {
 function hideHint() {
 	var hint = document.getElementById("hint");
 	hint.style.display = "none";
+}
+function buy(b) {
+	window.location.assign("/buy/" + b);
 }

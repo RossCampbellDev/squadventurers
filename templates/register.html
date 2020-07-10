@@ -15,7 +15,7 @@
 			var user = f1.elements["user"];
 			var email = f1.elements["email"];
 			var userpass = f1.elements["userpass"];
-			var paidup = f1.elements["paidup"];
+			//var paidup = f1.elements["paidup"];
 			var msg="";
 			var regex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,}/g;
 
@@ -41,9 +41,9 @@
 				success = false; msg=msg+"what kind of password was that?\n";
 			}
 
-			if (paidup.checked == false) {
+			/*if (paidup.checked == false) {
 				success = false; msg=msg+"don't you think you should give Ross money?";
-			}
+			}*/
 
 			if (success == true) {
 				f1.submit();
@@ -93,8 +93,8 @@
 				<div class="login-label">Password:</div>
 				<input class="login-input" name=userpass type=password placeholder="KeepItSecret9731" />
 
-				<div class="login-label">Have you paid Ross some money?:</div>
-				<input class="login-input" name=paidup type=checkbox />
+				<!--<div class="login-label">Have you paid Ross some money?:</div>
+				<input class="login-input" name=paidup type=checkbox />-->
 			</form>
 
 			<div style="width:100%; text-align: center;">

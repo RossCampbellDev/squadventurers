@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="UTF-8">
+        <meta name="niewport" content="width=device-width,initial-scale=1">
+        <title>Squadventurers</title>
+        <link rel="stylesheet" href="/static/bored.css">
+        <script type="text/javascript">
+        </script>
+</head>
+
+<body style="background-color:#333;">
+	<a href="/logout"><div id="logout-box"><img src="/static/images/logout.png" width=40 height=40 /></div></a>
+        <a href="/home"><div id="logout-box" style="left: 48px;"><img src="/static/images/home.png" width=40 height=40 /></div></a>
+
+        <div id="home-body">
+        <div id="home-title">
+                <div>
+                        <div id="home-title-top">SQUADVENTURERS</div>
+			<div id="home-title-top" style="color: #CCEEFF; transform: scale(0.6); margin-top: 16px; margin-left: 10px;">Purchase {{ bkName }}:</div>
+                </div>
+        </div>
+        <div id="home-div">
+                <div id="login-box" style="text-align:center;">
+                        <form action="{{ url_for('buy') }}" method="post">
+				<img src="/static/images/Brob.png" width=300 />
+				<input type=hidden name=bookNum value={{ bk }} />
+                                <div style="width:100%; text-align: center;">
+					<input type=submit id="go-button" value="Go!" />
+				</div>
+                        </form>
+                </div>
+        </div>
+        <div id="cpright">Unpublished work &copy; 2020 Ross Campbell All Rights Reserved.  RC AUTHOR LTD.</div>
+        </div>
+</body>
+</html>
+~                                                                                                                     
+~                                                                                                                     
+~            

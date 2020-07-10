@@ -22,13 +22,19 @@
 		<div> 
 			<div id="home-title-top">SQUADVENTURERS</div>
 			<!--<div id="home-title-sub" style="font-family: 'Courgette', cursive; margin-top:30px; font-size: 42px; color: #feffd6;">-->
-			<div id="home-title-top" style="color: #CCEEFF; transform: scale(0.7); margin-top: 0px; margin-left: 10px;">VS.</div>
+			<div id="home-title-top" style="color: #CCEEFF; transform: scale(0.7); margin-top: 20px; margin-left: 10px;">Titles</div>
 		</div>
 	</div>
 	<div id="home-div">
 		<div>
-			<div class="home-nav" onclick=navigate(1,1,1)>1.&nbsp;&nbsp;...The World</div>
-			<div class="home-nav" onclick=navigate(1,1,2)>2.&nbsp;&nbsp;...The Second Book</div>
+			{% for bk,bName in bNames.items() %}
+			<div class="home-nav" onclick=navigate(1,1,{{ bk }})>{{ bk }}.&nbsp;&nbsp;{{ bName }}
+				
+				{% if bData[bk]==1 %}
+					<img src="/static/images/purchased.png" width=40 style="margin-bottom: -4px;" /><div style="font-weight: 200; font-size:18px; padding-bottom: 6px;">&nbsp;Currently Owned</div>
+				{% endif %}
+				</div>
+			{% endfor %}
 		</div>
 	</div>
 	<div id="cpright">Unpublished work &copy; 2020 Ross Campbell All Rights Reserved.  RC AUTHOR LTD.</div>

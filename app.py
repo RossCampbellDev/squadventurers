@@ -45,15 +45,14 @@ characters = []
 places = []
 
 def updateChapters():
-    contents = []
+    contents.clear() 
     if session.get('book') is None:
         session['book'] = 1
-
-    print("update b: %d" % (int(session.get('book'))))
 
     # get the navigation pane data
     count = 0
     fname = "snakes/chapters_" + str(session.get('book')) + ".txt"
+    
     if path.exists(fname):
         with open(fname) as f:
             count = 0
@@ -65,7 +64,6 @@ def updateChapters():
     else:
         return home()
 
-
 def setupNavInfo():
     if session.get('book') is None:
         session['book'] = 1
@@ -75,7 +73,6 @@ def setupNavInfo():
     fname = "snakes/chapters_" + str(session.get('book')) + ".txt"
     if path.exists(fname):
         with open(fname) as f:
-            print("hey")
             count = 0
             fl = f.readlines()
             for l in fl:
@@ -152,16 +149,17 @@ def checkLogin():
         b = Bcrypt()
         # userpass = b.generate_password_hash(userpass)
         cursor = db.connection.cursor()
-        cursor.execute("SELECT PaidUp,PassPhrase FROM People WHERE lower(UserName)=%s", (user.lower(),))
+        cursor.execute("SELECT PassPhrase,PersonID FROM People WHERE lower(UserName)=%s", (user.lower(),))
         
         results = cursor.fetchall()
         cursor.close()
         
         paidup = 0
         if len(results) > 0:
-            if b.check_password_hash(results[0][1].encode('utf-8'), userpass):
-                paidup = results[0][0]
+            if b.check_password_hash(results[0][0].encode('utf-8'), userpass):
                 session['logged-in'] = True
+                session['user'] = user
+                session['pid'] = results[0][1]
                 session.permanent = True
                 app.permanent_session_lifetime = timedelta(days=1)
             else:
@@ -170,15 +168,42 @@ def checkLogin():
     return home()
 
 
+def checkPurchase(personID, bookID):
+    cursor = db.connection.cursor()
+    rc = cursor.execute("SELECT * FROM WhoBought WHERE PersonID=%s AND BookID=%s", (personID, bookID,))
+    if rc == 0:
+        return False;
+    else:
+        return True;
+
 @app.route("/")
 @app.route("/index")
 @app.route("/home")
 def home():
     if len(contents) == 0:
         setupNavInfo()
+    
     # check login and then render template
     if session.get('logged-in'):
-        return render_template('index.html')
+        bookData = {}   # contains book ID and flag to show if purchased
+        bookNames = {}  # contains book ID and corresponding book name
+
+        # grab list of all books, and see if they've been purchased or not
+        # create dictionary of book names too
+        cursor = db.connection.cursor()
+        cursor.execute("SELECT BookID,BookName FROM Books ORDER BY BookID ASC")
+        rows = cursor.fetchall()
+        for row in rows:
+            print(str(row[0]) + " " + str(session.get('pid')))
+            rc = cursor.execute("SELECT PersonID FROM WhoBought WHERE BookID=%s AND PersonID=%s",(row[0], session.get('pid'),))
+            bookNames[row[0]] = row[1]
+            # if there's a rowcount > 0 then we know the user purchased it
+            if rc > 0:
+                bookData[row[0]] = 1
+            else:
+                bookData[row[0]] = 0
+
+        return render_template('index.html', bData=bookData, bNames=bookNames)
 
     return render_template('login.html', newName="")
 
@@ -192,11 +217,11 @@ def createUser():
         user = request.form['user']
         email = request.form['email']
         userpass = request.form['userpass'].encode('utf-8')
-        paidup = request.form['paidup']
-        if paidup == "on":
-            paidup = 1
-        else:
-            paidup = 0
+        #paidup = request.form['paidup']
+        #if paidup == "on":
+        #    paidup = 1
+        #else:
+        #    paidup = 0
 
         # hash the pw
         b = Bcrypt()
@@ -205,12 +230,22 @@ def createUser():
         cursor = db.connection.cursor()
 
         # check for duplicate
-        cursor.execute("SELECT * FROM People WHERE lower(UserName)=%s OR (FirstName=%s AND LastName=%s)", (user.lower(),fname,lname,))
-        if cursor.rowcount > 0:
+        rc = cursor.execute("SELECT * FROM People WHERE lower(UserName)=%s OR (FirstName=%s AND LastName=%s)", (user.lower(),fname,lname,))
+        if rc > 0:
             return render_template("register.html", problem="exists")
 
+        # get max id
+        pid = 1
+        rc = cursor.execute("SELECT MAX(PersonID) FROM People")
+        if rc > 0:
+            rows = cursor.fetchall()
+            pid = rows[0][0] + 1
+            if pid == None:
+                pid = 1
+
         # if no duplicate, insert
-        cursor.execute("INSERT INTO People (FirstName,LastName,UserName,Email,PassPhrase,PaidUp) VALUES (%s, %s, %s, %s, %s, %s)", (fname,lname,user,email,userpass,paidup,))
+        #cursor.execute("INSERT INTO People (FirstName,LastName,UserName,Email,PassPhrase,PaidUp) VALUES (%s, %s, %s, %s, %s, %s)", (fname,lname,user,email,userpass,paidup,))
+        cursor.execute("INSERT INTO People (PersonID,FirstName,LastName,UserName,Email,PassPhrase) VALUES (%s, %s, %s, %s, %s, %s)", (pid,fname,lname,user,email,userpass,))
 
         db.connection.commit()
         return render_template("login.html", newName=user)
@@ -218,44 +253,82 @@ def createUser():
     # default action, and for before post
     return render_template("register.html")
 
+
+@app.route("/buy", defaults={"bookNum":None})
+@app.route("/buy/<bookNum>" )
+@app.route("/buy/<bookNum>", methods=['POST'])
+def buy(bookNum):
+    if bookNum == None:
+        return home()
+
+    # if they have submitted the form
+    # - check payment
+    # - update WhoBought table
+    # - success message or redirect
+    # else
+    # - return buy page
+    cursor = db.connection.cursor()
+    rc = cursor.execute("SELECT BookName FROM Books WHERE BookID=%s",(bookNum,))
+    if rc > 0:
+        rows = cursor.fetchall()
+        bookName = rows[0][0]
+    else:
+        # invalid booknum
+        return home()
+
+    return render_template("buy.html", bk=bookNum, bkName=bookName)
+
+
 @app.route("/<pageNum>", defaults={"chapterNum":"None", "bookNum":"None"})
 @app.route("/<pageNum>/<chapterNum>", defaults={"bookNum":"None"})
 @app.route("/<pageNum>/<chapterNum>/<bookNum>")
 def read(pageNum, chapterNum, bookNum):
     freeRead = False
+    cursor = db.connection.cursor()
+    pid = 0 # default user id, for checking purchase
 
     if not session.get('logged-in'):
-        if not session.get('free'): # if not on free read, then log out
+        if not session.get('free'): # if not on free read, then return home 
             return home()
-       
+    else:
+        rc = cursor.execute("SELECT PersonID FROM People WHERE UserName='" + session.get('user') + "'")
+        if rc > 0:
+            rows = cursor.fetchall()
+            pid = rows[0][0]
+
     # if it's a free read then don't allow past chapter 3
-    if session.get('free'):
+    #if session.get('free') and not checkPurchase(pid, bookNum):
+    if not checkPurchase(pid, bookNum):
         freeRead = True
         try:
             if int(pageNum) > 29 or int(chapterNum) > 3:
-                return home()
+                return buy(1)
         except ValueError:
-            print()
+            print("wtf value error")
 
     # default the values if new session
     if bookNum == "None":
         if session.get('book') is None:
-            print("no sesh") 
             bookNum=1
             session['book'] = int(bookNum) # should always be 1 or a selected value
         else:
-            print("yes sesh")
             bookNum=session.get('book')
             session['book'] = int(bookNum) # should always be 1 or a selected value
-            updateChapters()
     else:
         if session.get('book') is not None:
-            print('yes bookNum, yes sesh')
             if bookNum != session.get('book'):
                 session['book'] = int(bookNum)
                 session['page'] = 1
                 session['chapter'] = 1
-                updateChapters()
+
+
+    # check to see if they have paid for the book
+    if int(bookNum) > 1:
+        rc = cursor.execute("SELECT * FROM WhoBought WHERE PersonID=" + str(pid) + " AND BookID=" + str(bookNum))
+        if rc == 0:
+            return buy(bookNum)
+
+    updateChapters()
 
     if session.get('page') is None:
         session['page'] = 1
@@ -264,7 +337,7 @@ def read(pageNum, chapterNum, bookNum):
         session['chapter'] = 1
 
     # if they are logged in and there IS session data for the page number,
-    # go to that page if they've defaulted to page 1
+        # go to that page if they've defaulted to page 1
     if session.get('page') is not None and pageNum is not None:
         if session.get('page') > 2 and int(pageNum) == 1: # >2 so that we can go back to page 1
             return read(session.get('page'),0,bookNum)# session.get('chapter')) # pass 0 chapter to just go to page directly
@@ -286,7 +359,6 @@ def read(pageNum, chapterNum, bookNum):
     if pageNum == "None":
         pageNum = 1
 
-    print('book: %s' % str(bookNum))
     # load the pre-generated JSON data into a JSON dictionary
     fname = "books/augmented/" + str(bookNum) + ".txt"
     if path.exists(fname):
@@ -310,7 +382,7 @@ def read(pageNum, chapterNum, bookNum):
                 thisPage["absoluteCount"] = int(page["absoluteCount"])
                 thisPage["pageText"] = page["pageText"]
                 thisPage["chapterNum"] = int(page["chapterNum"])
-                return render_template("read.html", thisPage=thisPage, contents=contents, characters=characters, places=places, free=freeRead)
+                return render_template("read.html", thisPage=thisPage, contents=contents, characters=characters, places=places, free=freeRead, bNum=bookNum)
 
 
     # look for the searched-for page within the JSON data
@@ -319,7 +391,7 @@ def read(pageNum, chapterNum, bookNum):
             thisPage["absoluteCount"] = int(page["absoluteCount"])
             thisPage["pageText"] = page["pageText"]
             thisPage["chapterNum"] = int(page["chapterNum"])
-            return render_template("read.html", thisPage=thisPage, contents=contents, characters=characters, places=places, free=freeRead)
+            return render_template("read.html", thisPage=thisPage, contents=contents, characters=characters, places=places, free=freeRead, bNum=bookNum)
 
     # if we're not looking for a specific page or chapter, go to the index
     session['page'] = 1
