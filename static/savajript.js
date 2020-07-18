@@ -1,4 +1,5 @@
 window.dimmerSwitch = true;
+
 function gohome() {
 	window.location.assign("/");
 }
@@ -32,10 +33,10 @@ function quotePretty() {
 	var dimmerCookie = document.cookie;
 	dimmerCookie = dimmerCookie.split(';');
 	dimmerCookie = dimmerCookie[0];
-
+	
 	if (dimmerCookie.includes("false")) {
-		dimmerSwitch = dimmerCookie;
-		dimmer();
+		dimmerSwitch = false;
+		//dimmer();
 	}
 
 	var t = document.getElementById("content-text");
@@ -98,7 +99,7 @@ function dimmer() {
 	}
 
 	dimmerSwitch = !dimmerSwitch;
-	document.cookie = "name=dimmerCookie=" + dimmerSwitch + "path=/;";
+	document.cookie = "dimmerCookie=" + dimmerSwitch + ";path=/;";
 }
 
 function show(s) {
