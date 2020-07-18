@@ -170,7 +170,8 @@ def checkLogin():
 
 def checkPurchase(personID, bookID):
     cursor = db.connection.cursor()
-    rc = cursor.execute("SELECT * FROM WhoBought WHERE PersonID=%s AND BookID=%s", (personID, bookID,))
+    cursor.execute("SELECT * FROM WhoBought WHERE PersonID=%s AND BookID=%s", (personID, bookID,))
+    rc = cursor.fetchall()
     if rc == 0:
         return False;
     else:

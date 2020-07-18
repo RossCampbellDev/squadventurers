@@ -1,0 +1,1 @@
+mysqldump -u gandalf -p --no-data BookDatabase > book.sql
