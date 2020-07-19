@@ -28,12 +28,16 @@
 	<div id="home-div">
 		<div>
 			{% for bk,bName in bNames.items() %}
-			<div class="home-nav" onclick=navigate(1,1,{{ bk }})>{{ bk }}.&nbsp;&nbsp;{{ bName }}
+			<div class="home-nav" >
+				<div onclick=navigate(1,1,{{ bk }})>{{ bk }}.&nbsp;&nbsp;{{ bName }}
 				
 				{% if bData[bk]==1 %}
-					<img src="/static/images/purchased.png" width=40 style="margin-bottom: -4px;" /><div style="font-weight: 200; font-size:18px; padding-bottom: 6px;">&nbsp;Currently Owned</div>
+				<img src="/static/images/purchased.png" width=40 style="margin-bottom: -4px;" /><!--<div style="font-weight: 200; font-size:18px; padding-bottom: 6px;">&nbsp;Currently Owned</div>--></div>
 				{% endif %}
-				</div>
+				{% if pData[bk]>0 %}
+				<a class="continue-link" onClick=navigate({{ pData[bk] }},0,{{ bk }})>Continue from P{{ pData[bk] }} &#8680; </a>
+				{% endif %}
+			</div>
 			{% endfor %}
 		</div>
 	</div>

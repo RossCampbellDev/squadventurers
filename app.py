@@ -131,6 +131,7 @@ def logout():
     session['free'] = False
     session.pop('free')
     app.secret_key = os.urandom(12)
+    session.clear()
     return home()
 
 
@@ -169,13 +170,16 @@ def checkLogin():
 
 
 def checkPurchase(personID, bookID):
+    if not personID or personID==0 or not bookID or bookID==0:
+        return False
+
     cursor = db.connection.cursor()
     cursor.execute("SELECT * FROM WhoBought WHERE PersonID=%s AND BookID=%s", (personID, bookID,))
     rc = cursor.fetchall()
-    if rc == 0:
-        return False;
+    if rc or rc==0:
+        return False
     else:
-        return True;
+        return True
 
 @app.route("/")
 @app.route("/index")
@@ -188,6 +192,7 @@ def home():
     if session.get('logged-in'):
         bookData = {}   # contains book ID and flag to show if purchased
         bookNames = {}  # contains book ID and corresponding book name
+        pageData = {}    # contains book ID and page number if in history -> skip to there
 
         # grab list of all books, and see if they've been purchased or not
         # create dictionary of book names too
@@ -195,16 +200,25 @@ def home():
         cursor.execute("SELECT BookID,BookName FROM Books ORDER BY BookID ASC")
         rows = cursor.fetchall()
         for row in rows:
-            print(str(row[0]) + " " + str(session.get('pid')))
+            # print(str(row[0]) + " " + str(session.get('pid')))
             rc = cursor.execute("SELECT PersonID FROM WhoBought WHERE BookID=%s AND PersonID=%s",(row[0], session.get('pid'),))
             bookNames[row[0]] = row[1]
             # if there's a rowcount > 0 then we know the user purchased it
-            if rc > 0:
+            if rc:
                 bookData[row[0]] = 1
             else:
                 bookData[row[0]] = 0
 
-        return render_template('index.html', bData=bookData, bNames=bookNames)
+            # check if user has a history for what page they were on
+            rc = cursor.execute("SELECT BookID, PageNum FROM WhatPage WHERE BookID=%s AND PersonID=%s",(row[0], session.get('pid'),))
+
+            if rc:
+                pRow = cursor.fetchone()
+                pageData[row[0]] = pRow[1]
+            else:
+                pageData[row[0]] = 0
+
+        return render_template('index.html', bData=bookData, bNames=bookNames, pData=pageData)
 
     return render_template('login.html', newName="")
 
@@ -232,13 +246,13 @@ def createUser():
 
         # check for duplicate
         rc = cursor.execute("SELECT * FROM People WHERE lower(UserName)=%s OR (FirstName=%s AND LastName=%s)", (user.lower(),fname,lname,))
-        if rc > 0:
+        if rc:
             return render_template("register.html", problem="exists")
 
         # get max id
         pid = 1
         rc = cursor.execute("SELECT MAX(PersonID) FROM People")
-        if rc > 0:
+        if (rc) > 0:
             rows = cursor.fetchall()
             pid = rows[0][0] + 1
             if pid == None:
@@ -274,7 +288,7 @@ def buy(bookNum):
     # - return buy page
     cursor = db.connection.cursor()
     rc = cursor.execute("SELECT BookName FROM Books WHERE BookID=%s",(bookNum,))
-    if rc > 0:
+    if rc:
         rows = cursor.fetchall()
         bookName = rows[0][0]
     else:
@@ -297,17 +311,17 @@ def read(pageNum, chapterNum, bookNum):
             return home()
     else:
         rc = cursor.execute("SELECT PersonID FROM People WHERE UserName='" + session.get('user') + "'")
-        if rc > 0:
+        if rc:
             rows = cursor.fetchall()
             pid = rows[0][0]
 
     # if it's a free read then don't allow past chapter 3
-    #if session.get('free') and not checkPurchase(pid, bookNum):
-    if not checkPurchase(pid, bookNum):
+    # if session.get('free') and not checkPurchase(pid, bookNum):
+    if checkPurchase(pid, bookNum) == False:
         freeRead = True
         try:
             if int(pageNum) > 29 or int(chapterNum) > 3:
-                return buy(1)
+                return buy(bookNum)
         except ValueError:
             print("wtf value error")
 
@@ -330,8 +344,9 @@ def read(pageNum, chapterNum, bookNum):
     # check to see if they have paid for the book
     if int(bookNum) > 1:
         rc = cursor.execute("SELECT * FROM WhoBought WHERE PersonID=" + str(pid) + " AND BookID=" + str(bookNum))
-        if rc == 0:
-            return buy(bookNum)
+        if rc or rc==0:
+            # return buy(bookNum)
+            x=1
 
     updateChapters()
 
@@ -342,7 +357,7 @@ def read(pageNum, chapterNum, bookNum):
         session['chapter'] = 1
 
     # if they are logged in and there IS session data for the page number,
-        # go to that page if they've defaulted to page 1
+    # go to that page if they've defaulted to page 1
     if session.get('page') is not None and pageNum is not None:
         if session.get('page') > 2 and int(pageNum) == 1: # >2 so that we can go back to page 1
             return read(session.get('page'),0,bookNum)# session.get('chapter')) # pass 0 chapter to just go to page directly
@@ -358,7 +373,7 @@ def read(pageNum, chapterNum, bookNum):
     if chapterNum != "None":
         session['chapter'] = int(chapterNum)
 
-    # set up the page (book text and chapter etc
+    # set up the page (book text and chapter etc)
     thisPage={}
     
     if pageNum == "None":
@@ -387,6 +402,10 @@ def read(pageNum, chapterNum, bookNum):
                 thisPage["absoluteCount"] = int(page["absoluteCount"])
                 thisPage["pageText"] = page["pageText"]
                 thisPage["chapterNum"] = int(page["chapterNum"])
+
+                if pid and chapterNum and page["absoluteCount"]:
+                    UpdateCurrentPage(pid,bookNum,page["absoluteCount"])
+
                 return render_template("read.html", thisPage=thisPage, contents=contents, characters=characters, places=places, free=freeRead, bNum=bookNum)
 
 
@@ -396,6 +415,10 @@ def read(pageNum, chapterNum, bookNum):
             thisPage["absoluteCount"] = int(page["absoluteCount"])
             thisPage["pageText"] = page["pageText"]
             thisPage["chapterNum"] = int(page["chapterNum"])
+
+            if pid and chapterNum and page["absoluteCount"]:
+                UpdateCurrentPage(pid,bookNum,page["absoluteCount"])
+
             return render_template("read.html", thisPage=thisPage, contents=contents, characters=characters, places=places, free=freeRead, bNum=bookNum)
 
     # if we're not looking for a specific page or chapter, go to the index
@@ -456,6 +479,20 @@ def bio(nameIn):
         return "<content-title>Bio Page</content-title>"
 
     return ""
+
+def UpdateCurrentPage(Person, BookNum, PageNum):
+    # print("ucp:%s %s %s" % (Person, BookNum, PageNum))
+    cursor = db.connection.cursor()
+
+    # if row exists for (person,book) then update
+    rc = cursor.execute("SELECT * FROM WhatPage WHERE PersonID=%s AND BookID=%s",(Person,BookNum,))
+    if rc:
+        cursor.execute("UPDATE WhatPage SET PageNum=%s WHERE PersonID=%s AND BookID=%s AND PageNum<%s", (PageNum,Person,BookNum,PageNum,))
+    else:
+        cursor.execute("INSERT INTO WhatPage (PersonID,BookID,PageNum) VALUES (%s, %s, %s)", (Person,BookNum,PageNum,))
+
+    db.connection.commit()
+
 
 @app.route('/freeRead')
 def freeRead():

@@ -35,6 +35,16 @@ a:hover {
 
 }
 
+.continue-link
+{
+	color:#4DDD79; font-weight:100; font-size:36px;
+}
+
+.continue-link:hover
+{
+	text-shadow:0 0 12px #111; transition:0.3s;
+}
+
 p {
 	color:#feffd4;
 	font-weight:bold;
