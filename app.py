@@ -176,7 +176,8 @@ def checkPurchase(personID, bookID):
     cursor = db.connection.cursor()
     cursor.execute("SELECT * FROM WhoBought WHERE PersonID=%s AND BookID=%s", (personID, bookID,))
     rc = cursor.fetchall()
-    if rc or rc==0:
+    
+    if not rc or rc==0:
         return False
     else:
         return True
@@ -307,6 +308,8 @@ def read(pageNum, chapterNum, bookNum):
     pid = 0 # default user id, for checking purchase
 
     if not session.get('logged-in'):
+        print("hey")
+        freeRead = False
         if not session.get('free'): # if not on free read, then return home 
             return home()
     else:
@@ -317,6 +320,7 @@ def read(pageNum, chapterNum, bookNum):
 
     # if it's a free read then don't allow past chapter 3
     # if session.get('free') and not checkPurchase(pid, bookNum):
+    print("%s, %s" % (pid, bookNum))
     if checkPurchase(pid, bookNum) == False:
         freeRead = True
         try:
@@ -344,9 +348,8 @@ def read(pageNum, chapterNum, bookNum):
     # check to see if they have paid for the book
     if int(bookNum) > 1:
         rc = cursor.execute("SELECT * FROM WhoBought WHERE PersonID=" + str(pid) + " AND BookID=" + str(bookNum))
-        if rc or rc==0:
-            # return buy(bookNum)
-            x=1
+        if not rc or rc==0:
+            return buy(bookNum)
 
     updateChapters()
 
