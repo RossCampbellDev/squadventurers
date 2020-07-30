@@ -128,7 +128,7 @@ def checkIP():
 def logout():
     session['logged-in'] = False
     session.pop('logged-in')
-    session['free'] = False
+    session['free'] = True 
     session.pop('free')
     app.secret_key = os.urandom(12)
     session.clear()
@@ -303,13 +303,11 @@ def buy(bookNum):
 @app.route("/<pageNum>/<chapterNum>", defaults={"bookNum":"None"})
 @app.route("/<pageNum>/<chapterNum>/<bookNum>")
 def read(pageNum, chapterNum, bookNum):
-    freeRead = False
+    freeRead = True     # assume free is true -> show buy button
     cursor = db.connection.cursor()
     pid = 0 # default user id, for checking purchase
 
     if not session.get('logged-in'):
-        print("hey")
-        freeRead = False
         if not session.get('free'): # if not on free read, then return home 
             return home()
     else:
@@ -318,16 +316,6 @@ def read(pageNum, chapterNum, bookNum):
             rows = cursor.fetchall()
             pid = rows[0][0]
 
-    # if it's a free read then don't allow past chapter 3
-    # if session.get('free') and not checkPurchase(pid, bookNum):
-    print("%s, %s" % (pid, bookNum))
-    if checkPurchase(pid, bookNum) == False:
-        freeRead = True
-        try:
-            if int(pageNum) > 29 or int(chapterNum) > 3:
-                return buy(bookNum)
-        except ValueError:
-            print("wtf value error")
 
     # default the values if new session
     if bookNum == "None":
@@ -344,6 +332,17 @@ def read(pageNum, chapterNum, bookNum):
                 session['page'] = 1
                 session['chapter'] = 1
 
+    # if it's a free read then don't allow past chapter 3
+    # if session.get('free') and not checkPurchase(pid, bookNum):
+    print("p: %s, b: %s" % (pid, bookNum))
+    if checkPurchase(pid, bookNum) == False:
+        try:
+            if int(pageNum) > 29 or int(chapterNum) > 3:
+                return buy(bookNum)
+        except ValueError:
+            print("wtf value error")
+    else:
+        freeRead = False
 
     # check to see if they have paid for the book
     if int(bookNum) > 1:
@@ -497,8 +496,8 @@ def UpdateCurrentPage(Person, BookNum, PageNum):
     db.connection.commit()
 
 
-@app.route('/freeRead')
-def freeRead():
+@app.route('/readForFree')
+def readForFree():
     session['free'] = True
     return redirect("/1", code=302)
 
